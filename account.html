@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+
+.settings-container {
+    max-width: 900px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.settings-header h2 {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.settings-header p {
+    color: #666;
+}
+
+hr {
+    border: 1px solid #ddd;
+    margin: 20px 0;
+}
+
+.settings-content {
+    display: flex;
+    gap: 20px;
+}
+
+.sidebar {
+    width: 200px;
+}
+
+.sidebar nav {
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.sidebar a:hover,
+.sidebar .active {
+    background: #007bff;
+    color: white;
+}
+
+.settings-main {
+    flex: 1;
+}
+
+.settings-main h3 {
+    font-size: 20px;
+}
+
+.description {
+    font-size: 14px;
+    color: #666;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+textarea {
+    min-height: 60px;
+    resize: none;
+}
+
+.form-info {
+    font-size: 12px;
+    color: #666;
+}
+
+.add-url {
+    background: #ddd;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.add-url:hover {
+    background: #ccc;
+}
+
+.submit-btn {
+    background: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background: #0056b3;
+}
+    </style>
+</head>
+<body>
+    <div class="settings-container">
+        <div class="settings-header">
+            <h2>Settings</h2>
+            <p>Manage your account settings and set e-mail preferences.</p>
+        </div>
+        <hr>
+        <div class="settings-content">
+            <aside class="sidebar">
+                <nav>
+                    <a href="/examples/forms" class="active">Profile</a>
+                    <a href="/examples/forms/account">Account</a>
+                    <a href="/examples/forms/appearance">Appearance</a>
+                    <a href="/examples/forms/notifications">Notifications</a>
+                    <a href="/examples/forms/display">Display</a>
+                </nav>
+            </aside>
+            <div class="settings-main">
+                <h3>Profile</h3>
+                <p class="description">This is how others will see you on the site.</p>
+                <hr>
+                <form>
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" placeholder="shadcn">
+                        <p class="form-info">This is your public display name. You can only change this once every 30 days.</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <select id="email" name="email">
+                            <option>Select a verified email</option>
+                            <option value="m@example.com">m@example.com</option>
+                            <option value="m@google.com">m@google.com</option>
+                            <option value="m@support.com">m@support.com</option>
+                        </select>
+                        <p class="form-info">You can manage verified email addresses in your <a href="/examples/forms">email settings</a>.</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="bio">Bio</label>
+                        <textarea id="bio" name="bio" placeholder="Tell us a little bit about yourself">I own a computer.</textarea>
+                        <p class="form-info">You can <span>@mention</span> other users and organizations to link to them.</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="urls">URLs</label>
+                        <input type="url" id="urls" name="urls" value="https://shadcn.com">
+                        <input type="url" name="urls" value="http://twitter.com/shadcn">
+                        <button type="button" class="add-url">Add URL</button>
+                    </div>
+                    <button type="submit" class="submit-btn">Update profile</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

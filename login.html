@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            height: 100%;
+        }
+
+        .design-section {
+            width: 50%;
+            background: #434A42;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .design-section .pattern {
+            width: 100%;
+            height: 100%;
+            background: url('i/1.webp') no-repeat center;
+            background-size: cover;
+        }
+
+        .form-section {
+            width: 50%;
+            background-color: white;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-section h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-section form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1000px) {
+            .design-section {
+                display: none;
+            }
+
+            .design-section {
+                width: 100%;
+                height: 50%;
+            }
+
+            .form-section {
+                width: 100%;
+                height: 50%;
+                padding: 20px;
+            }
+
+            .form {
+                width: 100%;
+                margin-top: 50px;
+            }
+
+            .btn {
+                font-size: 14px;
+            }
+        }
+
+        .form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background-color: #ffffff;
+            padding: 30px;
+            width: 450px;
+            border-radius: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        ::placeholder {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        .form button {
+            align-self: flex-end;
+        }
+
+        .flex-column > label {
+            color: #151717;
+            font-weight: 600;
+        }
+
+        .inputForm {
+            border: 1.5px solid #ecedec;
+            border-radius: 10px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            transition: 0.2s ease-in-out;
+        }
+
+        .input {
+            margin-left: 10px;
+            border-radius: 10px;
+            border: none;
+            width: 85%;
+            height: 100%;
+        }
+
+        .input:focus {
+            outline: none;
+        }
+
+        .inputForm:focus-within {
+            border: 1.5px solid #2d79f3;
+        }
+
+        .flex-row {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+            justify-content: space-between;
+        }
+
+        .flex-row > div > label {
+            font-size: 14px;
+            color: black;
+            font-weight: 400;
+        }
+
+        .span {
+            font-size: 14px;
+            margin-left: 5px;
+            color: #2d79f3;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .span:hover {
+            text-decoration: underline; /* Optional hover effect */
+        }
+
+        .button-submit {
+            margin: 20px 0 10px 0;
+            background-color: #151717;
+            border: none;
+            color: white;
+            font-size: 15px;
+            font-weight: 500;
+            border-radius: 10px;
+            height: 50px;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .button-submit:hover {
+            background-color: #252727;
+        }
+
+        .p {
+            text-align: center;
+            color: black;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .btn {
+            margin-top: 10px;
+            width: 100%;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 500;
+            gap: 10px;
+            border: 1px solid #ededef;
+            background-color: white;
+            cursor: pointer;
+            transition: 0.2s ease-in-out;
+        }
+
+        .btn:hover {
+            border: 1px solid #2d79f3;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="design-section">
+            <div class="pattern"></div>
+        </div>
+        <div class="form-section">
+    <form class="form" action="login.php" method="POST">
+        <h1>Welcome</h1>
+        <div class="flex-column">
+            <label>Email</label>
+        </div>
+        <div class="inputForm">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-at-sign"><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8"/></svg>
+            <input type="text" class="input" name="email" placeholder="Enter your Email" required>
+        </div>
+
+        <div class="flex-column">
+            <label>Password</label>
+        </div>
+        <div class="inputForm">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lock"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <input type="password" class="input" name="password" placeholder="Enter your Password" required>
+        </div>
+
+        <div class="flex-row">
+            <div>
+                <input type="checkbox" name="remember">
+                <label>Remember me</label>
+            </div>
+            <span class="span">Forgot password?</span>
+        </div>
+        <button class="button-submit">Sign In</button>
+        <p class="p">Don't have an account? <a href="register.html" class="span">Sign Up</a></p>
+    </form>
+<div id="error-message" style="display: none; padding: 15px; margin-bottom: 20px; border: 1px solid #f5c6cb; background-color: #f8d7da; color: #721c24; border-radius: 5px; font-weight: bold; text-align: center;">
+</div>
+
+<script>
+
+</script>
+
+
+</div>
+
+
+    </div>
+<script>
+    // Display error messages from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const errorMessage = urlParams.get('error');
+    if (errorMessage) {
+        const errorBox = document.getElementById('error-message');
+        errorBox.textContent = decodeURIComponent(errorMessage);
+        errorBox.style.display = 'block';
+    }
+
+    function validateForm() {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        if (!email || !password) {
+            alert("Both fields are required.");
+            return false;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            alert("Please enter a valid email address.");
+            return false;
+        }
+
+        return true; // Allow the form to be submitted
+    }
+
+            // Functie om inlogstatus te controleren
+        function checkLoginStatus() {
+            fetch('check_login_status.php') // Vraag status op van de PHP-server
+                .then(response => response.json()) // Converteer het antwoord naar JSON
+                .then(data => {
+                    if (data.loggedIn) {
+                        // Als gebruiker ingelogd is, redirect naar dashboard
+                        window.location.href = 'dashboard';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error); // Log eventuele fouten
+                });
+        }
+
+        // Controleer status direct na het laden van de pagina
+        document.addEventListener('DOMContentLoaded', checkLoginStatus);
+</script></body>
+</html>

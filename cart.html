@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+<style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .cart-item {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px;
+            text-align: center;
+            width: 250px;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .cart-item img {
+            max-width: 100%;
+        }
+        .cart-item h3 {
+            margin: 10px 0;
+        }
+        .cart-item p {
+            margin: 5px 0;
+        }
+        .cart-item span {
+            font-weight: bold;
+            color: #333;
+        }
+        .quantity-controls {
+            margin: 10px 0;
+        }
+        .quantity-controls button {
+            padding: 5px 10px;
+            margin: 0 5px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .quantity-controls button:hover {
+            background-color: #0056b3;
+        }
+        .cart-total {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .order-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .order-button:hover {
+            background-color: #218838;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" target="_blank" href="style.css" />
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <img src="i/logo.png" alt="logo" />
+        </div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="account.html">Account</a></li>
+            <li><a href="cart.html">Cart</a></li>
+        </ul>
+        <div class="hamburger">
+            <span class="line"></span>
+            <span class="line"></span>
+            <span class="line"></span>
+        </div>
+    </nav>
+    <h1>Your Shopping Cart</h1>
+    <div id="cart-container">
+        <!-- Cart items will be loaded here -->
+    </div>
+    <div id="cart-total" class="cart-total"></div>
+    <button id="order-button" class="order-button" style="display: none;" onclick="goToCheckout()">Place Order</button>
+
+    <script>
+    // Function to check if the user is logged in
+    async function isLoggedIn() {
+        try {
+            const response = await fetch('check_login_status.php');
+            const result = await response.json();
+            return result.loggedIn;
+        } catch (error) {
+            console.error('Error checking login status:', error);
+            return false;
+        }
+    }
+
+    // Function to fetch the cart from the database
+    async function getCartFromDatabase() {
+        try {
+            const response = await fetch('fetch_cart.php');
+            return await response.json();
+        } catch (error) {
+            console.error('Error fetching cart from database:', error);
+            return [];
+        }
+    }
+
+    // Function to save the cart to the database
+    async function saveCartToDatabase(cart) {
+        console.log(cart)
+        try {
+            await fetch('update_cart.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ cart }),
+            });
+        } catch (error) {
+            console.error('Error saving cart to database:', error);
+        }
+    }
+
+    // Function to get the cart from cookies
+    function getCartFromCookies() {
+        const cookies = document.cookie.split('; ').find(row => row.startsWith('cart='));
+        try {
+            return cookies ? JSON.parse(cookies.split('=')[1]) : [];
+        } catch (error) {
+            console.error('Error parsing cart cookie:', error);
+            return [];
+        }
+    }
+
+    // Function to save the cart back to cookies
+    function saveCartToCookies(cart) {
+        document.cookie = `cart=${JSON.stringify(cart)}; path=/`;
+    }
+
+    // Function to load the cart
+    async function loadCart() {
+        const container = document.getElementById('cart-container');
+        const totalContainer = document.getElementById('cart-total');
+        const orderButton = document.getElementById('order-button');
+
+        let cart = [];
+        const loggedIn = await isLoggedIn();
+
+        if (loggedIn) {
+            cart = await getCartFromDatabase();
+        } else {
+            cart = getCartFromCookies();
+        }
+
+        if (cart.length === 0) {
+            container.innerHTML = '<p>Your cart is empty.</p>';
+            totalContainer.textContent = '';
+            orderButton.style.display = 'none';
+            return;
+        }
+
+        // Fetch product details
+        fetch('fetch_products.php')
+            .then(response => response.json())
+            .then(products => {
+                container.innerHTML = ''; // Clear container before populating
+                let total = 0;
+
+                cart.forEach(item => {
+                    const product = products.find(p => p.id == item.productId);
+                    if (product) {
+                        const itemDiv = document.createElement('div');
+                        itemDiv.classList.add('cart-item');
+                        itemDiv.innerHTML = `
+                            <img src="${product.image_url}" alt="${product.name}">
+                            <h3>${product.name}</h3>
+                            <p>${product.description}</p>
+                            <p>Size: ${item.size || 'N/A'}</p>
+                            <span>Price: €${product.price}</span>
+                            <div class="quantity-controls">
+                                <button onclick="decreaseQuantity(${product.id}, '${item.size}')">-</button>
+                                <span>Quantity: ${item.quantity}</span>
+                                <button onclick="increaseQuantity(${product.id}, '${item.size}')">+</button>
+                            </div>
+                            <span>Total: €${(product.price * item.quantity).toFixed(2)}</span>
+                        `;
+                        container.appendChild(itemDiv);
+
+                        // Add to the total price
+                        total += product.price * item.quantity;
+                    }
+                });
+
+                // Display total price and show the order button
+                totalContainer.textContent = `Cart Total: €${total.toFixed(2)}`;
+                orderButton.style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Error fetching product data:', error);
+                container.innerHTML = '<p>Failed to load cart items.</p>';
+            });
+    }
+
+// Function to increase the quantity of a product
+async function increaseQuantity(productId, size) {
+    console.log('Increase triggered for:', { productId, size });
+
+    const loggedIn = await isLoggedIn();
+    let cart = loggedIn ? await getCartFromDatabase() : getCartFromCookies();
+
+    console.log('Cart before update:', cart);
+
+    // Find item in the cart
+    const item = cart.find(
+        item => String(item.productId) === String(productId) && String(item.size) === String(size)
+    );
+
+    if (item) {
+        item.quantity += 1; // Increase quantity
+        console.log('Updated item:', item);
+    } else {
+        console.warn('Item not found in cart:', { productId, size });
+    }
+
+    console.log('Cart after update:', cart);
+
+    if (loggedIn) {
+        console.log('Saving updated cart to database...');
+        await saveCartToDatabase(cart);
+    } else {
+        console.log('Saving updated cart to cookies...');
+        saveCartToCookies(cart);
+    }
+
+    console.log('Cart saved. Reloading cart...');
+    loadCart(); // Refresh the cart display
+}
+
+
+// Function to decrease the quantity of a product
+async function decreaseQuantity(productId, size) {
+    console.log('Decrease triggered for:', { productId, size });
+    
+    const loggedIn = await isLoggedIn();
+    let cart = loggedIn ? await getCartFromDatabase() : getCartFromCookies();
+
+    console.log('Cart before update:', cart);
+
+    // Find item in the cart
+    const itemIndex = cart.findIndex(
+        item => String(item.productId) === String(productId) && String(item.size) === String(size)
+    );
+
+    if (itemIndex !== -1) {
+        cart[itemIndex].quantity -= 1;
+        if (cart[itemIndex].quantity <= 0) {
+            console.log('Removing item from cart:', cart[itemIndex]);
+            cart.splice(itemIndex, 1); // Remove item if quantity is 0
+        }
+    } else {
+        console.warn('Item not found in cart:', { productId, size });
+    }
+
+    console.log('Cart after update:', cart);
+
+    if (loggedIn) {
+        console.log('Saving updated cart to database...');
+        await saveCartToDatabase(cart);
+    } else {
+        console.log('Saving updated cart to cookies...');
+        saveCartToCookies(cart);
+    }
+
+    console.log('Cart saved. Reloading cart...');
+    loadCart(); // Refresh the cart display
+}
+
+
+
+        // Function to go to the checkout page
+        function goToCheckout() {
+            window.location.href = 'checkout.html';
+        }
+
+        // Load cart items when the page is ready
+        loadCart();
+    </script>
+</body>
+</html>

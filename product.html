@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .product {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .product img {
+            max-width: 300px;
+            height: auto;
+        }
+        .product-details {
+            max-width: 500px;
+        }
+        .product button {
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .product button:hover {
+            background-color: #218838;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" target="_blank" href="style.css" />
+
+</head>
+<body>
+    <nav>
+      <div class="logo">
+        <img src="i/logo.png" alt="logo" />
+      </div>
+      <ul>
+        <li>
+          <a href="index.htlm">Home</a>
+        </li>
+        <li>
+          <a href="products.html">Products</a>
+        </li>
+        <li>
+          <a href="account.html">Account</a>
+        </li>
+        <li>
+          <a href="cart.html">Cart</a>
+        </li>
+      </ul>
+      <div class="hamburger">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </nav>
+    <div class="menubar">
+      <ul>
+        <li>
+          <a href="index.htlm">Home</a>
+        </li>
+        <li>
+          <a href="products.html">Products</a>
+        </li>
+        <li>
+          <a href="account.html">Account</a>
+        </li>
+        <li>
+          <a href="cart.html">Cart</a>
+        </li>
+      </ul>
+    </div>
+    <button onclick="history.back()">Go Back</button>
+    <h1>Product Details</h1>
+    <div id="product-container">
+        <!-- Product Section -->
+        <div id="product" class="product" style="display: none;">
+            <img id="product-image" src="" alt="Product Image">
+            <div class="product-details">
+                <h2 id="product-name"></h2>
+                <p id="product-description"></p>
+                <p><strong>Price:</strong> €<span id="product-price"></span></p>
+
+                <!-- Size Selection Dropdown -->
+                <label for="size-select">Select Size:</label>
+                <select id="size-select">
+                </select>
+
+                <!-- Add to Cart Button -->
+                <button id="add-to-cart-button">Add to Cart</button>
+            </div>
+        </div>
+        <!-- Error Message -->
+        <p id="error-message" class="error" style="display: none;"></p>
+    </div>
+
+<script>
+    // Ensure the DOM is fully loaded before running the script
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+
+        if (!productId) {
+            document.getElementById('error-message').textContent = 'Invalid product ID!';
+            document.getElementById('error-message').style.display = 'block';
+            return;
+        }
+
+        // Fetch product data
+        fetch(`get_product.php?id=${productId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(product => {
+                if (product.error) {
+                    document.getElementById('error-message').textContent = product.error;
+                    document.getElementById('error-message').style.display = 'block';
+                } else {
+                    // Populate product details
+                    document.getElementById('product').style.display = 'flex';
+                    document.getElementById('product-image').src = product.image_url;
+                    document.getElementById('product-name').textContent = product.name;
+                    document.getElementById('product-description').textContent = product.description;
+                    document.getElementById('product-price').textContent = parseFloat(product.price).toFixed(2);
+
+                    // Populate the size dropdown with sizes fetched from the database
+                    const sizeSelect = document.getElementById('size-select');
+                    product.sizes.forEach(size => {
+                        const option = document.createElement('option');
+                        option.value = size;
+                        option.textContent = size;
+                        sizeSelect.appendChild(option);
+                    });
+
+                    // Attach event listener to "Add to Cart" button
+                    const addToCartButton = document.getElementById('add-to-cart-button');
+                    addToCartButton.addEventListener('click', () => {
+                        const size = document.getElementById('size-select').value;
+                        addToCart(product.id, size);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching product:', error);
+                document.getElementById('error-message').textContent = 'Error loading product data.';
+                document.getElementById('error-message').style.display = 'block';
+            });
+    });
+
+    function addToCart(productId, size) {
+        // Fetch user login status from the server
+        fetch('check_login_status.php')
+            .then(response => response.json())
+            .then(isLoggedIn => {
+                console.log(isLoggedIn)
+                if (isLoggedIn.loggedIn == true) {
+                    // User is logged in: save the cart to the database
+                    updateCartInDatabase(productId, size);
+                } else {
+                    // User is not logged in: save the cart in cookies
+                    updateCartInCookie(productId, size);
+                }
+            })
+            .catch(error => {
+                console.error('Error checking login status:', error);
+                alert('CCCFailed to add product to cart. Please try again.');
+            });
+    }
+
+function updateCartInDatabase(productId, size) {
+    const data = { productId: String(productId), size: String(size), quantity: 1 };
+    console.log('Sending data to update_cart.php:', JSON.stringify(data));
+
+    fetch('add_to_cart.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(result => {
+        console.log('Response from update_cart.php:', result);
+        if (result.success) {
+            alert('Product added to cart!');
+        } else {
+            alert('Failed to update cart. Please try again.');
+        }
+    })
+    .catch(error => {
+        console.error('Error updating cart in database:', error);
+        alert('BBBAn error occurred. Please try again.');
+    });
+}
+
+
+function updateCartInCookie(productId, size) {
+    let cart = [];
+
+    // Retrieve the cart from cookies
+    const cartCookie = document.cookie.split('; ').find(row => row.startsWith('cart='));
+    if (cartCookie) {
+        try {
+            // Parse the existing cart if it exists
+            cart = JSON.parse(cartCookie.split('=')[1]);
+        } catch (error) {
+            console.warn('Invalid cart cookie format. Resetting cart.');
+            cart = []; // Reset to empty array if parsing fails
+        }
+    }
+
+    // Check if product already exists with the same size
+    const existingItem = cart.find(item => item.productId === productId && item.size === size);
+    if (existingItem) {
+        existingItem.quantity += 1; // Increment quantity if product + size exists
+    } else {
+        // Add new product with selected size
+        cart.push({ productId: productId, size: size, quantity: 1 });
+    }
+
+    // Save updated cart back to cookies without encoding
+    try {
+        document.cookie = `cart=${JSON.stringify(cart)}; path=/; max-age=86400`;
+        console.log('Cart updated in cookie:', cart);
+        alert('Product added to cart!');
+    } catch (error) {
+        console.error('Failed to save cart to cookie:', error);
+        alert('Could not save the product to the cart. Please try again.');
+    }
+}
+
+</script>
+<script src="script.js"></script>
+
+
+</body>
+</html>
