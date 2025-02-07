@@ -1,11 +1,17 @@
-# Use the official PHP image with Apache
 FROM php:8.1-apache
 
-# Install the PDO and PDO MySQL extensions
+# Install required PHP extensions (including pdo_mysql, etc.)
 RUN docker-php-ext-install pdo pdo_mysql
 
-# Copy your project files into the container’s web root
+# Copy your project files
 COPY . /var/www/html/
 
-# Expose port 80 (Apache)
+# Copy the entrypoint script and give it execute permissions
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
 EXPOSE 80
+
+# Set the entrypoint to generate .env file before starting Apache
+ENTRYPOINT ["entrypoint.sh"]
+CMD ["apache2-foreground"]
