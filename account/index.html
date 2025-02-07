@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welkom</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            gap: 40px;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .menu-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        .welcome-header {
+            margin-bottom: 30px;
+        }
+
+        .welcome-header h1 {
+            font-size: 28px;
+            font-weight: normal;
+        }
+
+        .menu-list {
+            list-style: none;
+        }
+
+        .menu-list li {
+            margin: 15px 0;
+        }
+
+        .menu-list a {
+            color: #333;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .menu-list a:hover {
+            color: #666;
+        }
+
+        .info-container {
+            flex-grow: 1;
+        }
+
+        .info-card {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-card .icon {
+            width: 20px;
+            color: #666;
+        }
+
+        .info-card.password input {
+            border: none;
+            background: transparent;
+            font-size: 16px;
+        }
+
+        .info-card.address {
+            white-space: pre-line;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="menu-card">
+            <div class="welcome-header">
+                <h1>Welkom,<br><span id="user-name">[naam]</span></h1>
+            </div>
+            <nav>
+                <ul class="menu-list">
+                    <li><a href="#">Mijn gegevens</a></li>
+                    <li><a href="#">Aankoopgeschiedenis</a></li>
+                    <li><a href="#">Retouren</a></li>
+                    <li><a href="#">Vouchers</a></li>
+                    <li><a href="#">Uitloggen</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="info-container">
+            <div class="info-card address">
+                <span class="icon">👤</span>
+                <div id="user-address">
+                    [Adres]
+                </div>
+            </div>
+            <div class="info-card">
+                <span class="icon">📞</span>
+                <div id="user-phone">[Telefoon]</div>
+            </div>
+            <div class="info-card">
+                <span class="icon">📧</span>
+                <div id="user-email">[E-mail]</div>
+            </div>
+            <div class="info-card password">
+                <span class="icon">🔒</span>
+                <input type="password" value="••••••••" readonly>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fetch user data from the PHP file
+        fetch('fetch_user_info.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.error(data.error);
+                } else {
+                    document.getElementById("user-name").textContent = data.name;
+                    document.getElementById("user-address").textContent = data.address;
+                    document.getElementById("user-phone").textContent = data.phone;
+                    document.getElementById("user-email").textContent = data.email;
+                }
+            })
+            .catch(error => console.error("Error fetching user data:", error));
+    </script>
+</body>
+</html>
