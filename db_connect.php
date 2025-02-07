@@ -1,6 +1,10 @@
 <?php
-// DB connection (similar to index.php)
-$uri = "";
+// Load environment variables using vlucas/phpdotenv
+require __DIR__ . '/vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+$uri = getenv('DB_URI');
 $fields = parse_url($uri);
 
 // Build the DSN string instead of $conn
