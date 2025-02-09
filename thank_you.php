@@ -13,8 +13,8 @@ require_once 'db_connect.php'; // $conn is a PDO instance
 // Fetch the order ID from the query string
 $order_id = isset($_GET['order_id']) ? (int)$_GET['order_id'] : 0;
 
-// Fetch order details
-$sql = "SELECT o.order_id, o.total_amount, o.payment_provider, a.street, a.city, a.postal_code, a.country 
+// Fetch order details (added o.status)
+$sql = "SELECT o.order_id, o.total_amount, o.payment_provider, o.status, a.street, a.city, a.postal_code, a.country 
         FROM orders o
         JOIN addresses a ON o.address_id = a.address_id
         WHERE o.order_id = ? AND o.user_id = ?";
@@ -25,6 +25,13 @@ $order = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$order) {
     echo "Order not found or you do not have permission to view this order.";
     exit();
+}
+
+// Determine order status and steps logic
+$steps = ['Pending', 'Processing', 'Shipped', 'Completed'];
+$currentIndex = array_search($order['status'], $steps);
+if ($currentIndex === false) {
+    $currentIndex = 0; // default to first step if status not found
 }
 
 // Fetch order items
@@ -87,11 +94,91 @@ $order_items = $stmt_items->fetchAll(PDO::FETCH_ASSOC);
             font-size: 18px;
             font-weight: bold;
         }
+        .preview {
+  border: 1px solid #e5e7eb;
+  background-color: #ffffff;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  overflow-x: hidden;
+  background-position: top;
+  background-size: cover;
+  padding: 1rem;
+}
+
+.steps {
+  list-style: none;
+  display: flex;
+  padding: 0;
+  margin: 0;
+  counter-reset: step;
+}
+
+.step {
+  position: relative;
+  padding: 0 2rem;
+  color: #9ca3af;
+}
+
+.step::before {
+  content: counter(step);
+  counter-increment: step;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 0.5rem auto;
+}
+
+.step::after {
+  content: '';
+  position: absolute;
+  top: 1rem;
+  left: calc(50% + 1rem);
+  width: 100%;
+  height: 2px;
+  background-color: #e5e7eb;
+  transform: translateY(-50%);
+}
+
+.step:last-child::after {
+  display: none;
+}
+
+.step-primary {
+  color: #2563eb;
+}
+
+.step-primary::before {
+  background-color: #2563eb;
+  color: white;
+}
+
+.step-primary::after {
+  background-color: #2563eb;
+}
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Thank You for Your Order!</h1>
+        <div class="preview">
+            <ul class="steps">
+            <?php foreach ($steps as $i => $step): ?>
+                <li class="step <?php echo ($i <= $currentIndex) ? 'step-primary' : ''; ?>">
+                    <?php echo htmlspecialchars($step); ?>
+                </li>
+            <?php endforeach; ?>
+            </ul>
+        </div>
         <div class="order-details">
             <h3>Order ID: <?php echo htmlspecialchars($order['order_id']); ?></h3>
             <p><strong>Total Amount:</strong> $<?php echo htmlspecialchars(number_format($order['total_amount'], 2)); ?></p>
@@ -132,5 +219,7 @@ $order_items = $stmt_items->fetchAll(PDO::FETCH_ASSOC);
             <p><strong>Total: </strong>$<?php echo htmlspecialchars(number_format($order['total_amount'], 2)); ?></p>
         </div>
     </div>
+
+
 </body>
 </html>
