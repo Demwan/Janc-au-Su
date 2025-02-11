@@ -64,8 +64,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Clear the cart cookie
             setcookie('cart', '', time() - 3600, '/');
 
-            echo "Login successful! Redirecting...";
+
             header("Location: dashboard.php");
+            echo "Login successful! Redirecting...";
             exit();
         } else {
             // Redirect to login with an error message
