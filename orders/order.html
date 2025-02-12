@@ -113,12 +113,6 @@
       color: #64748b;
     }
 
-    .charts-grid {
-      display: grid;
-      grid-template-columns: 4fr 3fr;
-      gap: 1rem;
-    }
-
     .chart-card {
       background: white;
       border: 1px solid #e2e8f0;
@@ -191,7 +185,7 @@
       }
     }
     /* zoek uit waar dit bij hoort */
-    display: flex;
+      display: flex;
       justify-content: center;
     }
 
@@ -238,6 +232,9 @@
       text-align: left;
     }
 
+    th {
+      background: #f8f8f8;
+    }
 
     tr:hover {
       background: #f1f1f1;
@@ -252,6 +249,103 @@
       border: none;
       cursor: pointer;
     }
+
+    .order-container { 
+        max-width: 800px; 
+        margin: auto; 
+        padding: 20px; 
+    }
+
+    .order-header { 
+        margin-bottom: 20px; 
+    }
+
+    .order-item { 
+        display: flex; 
+        align-items: center; 
+        border-bottom: 1px solid #ccc; 
+        padding: 10px 0; 
+    }
+
+    .order-item img { 
+        margin-right: 20px; 
+        max-width: 100px; 
+    }
+
+    .order-status-buttons { 
+        margin-top: 20px; 
+        text-align: center; 
+    }
+
+    .order-status-buttons button { 
+        background: #28a745; 
+        color: #fff; 
+        border: none; 
+        padding: 10px 20px; 
+        border-radius: 4px; 
+        cursor: pointer; 
+        font-size: 16px; 
+    }
+
+    .order-status-buttons button:hover { 
+        background: #218838; 
+    }
+
+    #cancelBtn {
+        padding: 0.75rem 1.5rem;
+        border: 1px solid #dc2626;
+        border-radius: 0.375rem;
+        background-color: transparent;
+        color: #dc2626;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    #cancelBtn:hover {
+        background-color: #dc2626;
+        color: white;
+    }
+
+    #completeBtn {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 0.375rem;
+        background-color: #22c55e;
+        color: white;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    #completeBtn:hover {
+        background-color: #16a34a;
+    }
+
+    .back-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  color: white;
+  background-color: #000000;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.back-button:hover {
+  background-color: #333333;
+}
+
+.back-button svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
   </style>
 </head>
 
@@ -272,7 +366,7 @@
               d="M441-120v-86q-53-12-91.5-46T293-348l74-30q15 48 44.5 73t77.5 25q41 0 69.5-18.5T587-356q0-35-22-55.5T463-458q-86-27-118-64.5T313-614q0-65 42-101t86-41v-84h80v84q50 8 82.5 36.5T651-650l-74 32q-12-32-34-48t-60-16q-44 0-67 19.5T393-614q0 33 30 52t104 40q69 20 104.5 63.5T667-358q0 71-42 108t-104 46v84h-80Z" />
           </svg>
         </div>
-        <div class="stat-value" id="totalRevenue">$0.00</div>
+        <div class="stat-value">$45,231.89</div>
       </div>
 
       <!-- Repeat stat-card structure for Subscriptions, Sales, and Active Now -->
@@ -284,7 +378,7 @@
               d="m480-560-56-56 63-64H320v-80h167l-64-64 57-56 160 160-160 160ZM280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z" />
           </svg>
         </div>
-        <div class="stat-value" id="todaysSales">$0.00</div>
+        <div class="stat-value">$45,231.89</div>
       </div>
       <div class="stat-card">
         <div class="stat-header">
@@ -294,7 +388,7 @@
               d="M440-183v-274L200-596v274l240 139Zm80 0 240-139v-274L520-457v274Zm-80 92L160-252q-19-11-29.5-29T120-321v-318q0-22 10.5-40t29.5-29l280-161q19-11 40-11t40 11l280 161q19 11 29.5 29t10.5 40v318q0 22-10.5 40T800-252L520-91q-19 11-40 11t-40-11Zm200-528 77-44-237-137-78 45 238 136Zm-160 93 78-45-237-137-78 45 237 137Z" />
           </svg>
         </div>
-        <div class="stat-value" id="ordersNotProcessed">0</div>
+        <div class="stat-value">$45,231.89</div>
       </div>
       <div class="stat-card">
         <div class="stat-header">
@@ -304,119 +398,135 @@
               d="M240-160q-50 0-85-35t-35-85H40v-440q0-33 23.5-56.5T120-800h560v160h120l120 160v200h-80q0 50-35 85t-85 35q-50 0-85-35t-35-85H360q0 50-35 85t-85 35Zm0-80q17 0 28.5-11.5T280-280q0-17-11.5-28.5T240-320q-17 0-28.5 11.5T200-280q0 17 11.5 28.5T240-240ZM120-360h32q17-18 39-29t49-11q27 0 49 11t39 29h272v-360H120v360Zm600 120q17 0 28.5-11.5T760-280q0-17-11.5-28.5T720-320q-17 0-28.5 11.5T680-280q0 17 11.5 28.5T720-240Zm-40-200h170l-90-120h-80v120ZM360-540Z" />
           </svg>
         </div>
-        <div class="stat-value" id="ordersAwaitingShipment">0</div>
+        <div class="stat-value">$45,231.89</div>
       </div>
     </div>
 
     <div class="charts-grid">
-      <div class="chart-card">
-        <h3 class="chart-title">Orders to be processed</h3>
-        <div>
-          <div class="container">
-            <div class="search-bar">
-              <input type="text" placeholder="Filter emails..." id="searchInput">
+        <div class="chart-card">
+            <button class="back-button" onclick="window.history.back()">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Go Back
+              </button>
+            <div class="order-container">
+                <div class="order-header">
+                    <h1>Order Details</h1>
+                    <p id="order-info">Loading...</p>
+                </div>
+                <div id="address">
+                    <!-- Address info will be loaded here -->
+                </div>
+                <div id="items">
+                    <!-- Order items will be loaded here -->
+                </div>
+                <div class="order-status-buttons">
+                    <button id="completeBtn">Mark order as Processed</button>
+                    <button id="cancelBtn">Cancel order</button>
+                </div>
             </div>
-            <table id="ordersTable">
-              <thead>
-                <tr>
-                  <th>Order Date</th>
-                  <th>Email</th>
-                  <th>Number of items</th>
-                  <th class="text-right">Amount</th>
-                </tr>
-              </thead>
-              <tbody id="ordersProcessBody">
-                <p>No orders waiting</p>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
 
-      <div class="chart-card">
-        <h3 class="chart-title">Todays Sales</h3>
-        <div class="sales-list">
-          <div class="container">
-            <table>
-              <thead>
-                <tr>
-                  <th>Status</th>
-                  <th>Email</th>
-                  <th class="text-right">Amount</th>
-                </tr>
-              </thead>
-              <tbody id="salesTableBody">
-                <!-- ...table rows will be injected here... -->
-              </tbody>
-            </table>
-          </div>
         </div>
-      </div>
     </div>
   </div>
   <script>
-    document.getElementById('searchInput').addEventListener('keyup', function() {
-      var filter = this.value.toUpperCase();
-      var table = document.getElementById('ordersTable');
-      var rows = table.getElementsByTagName('tr');
-      for (var i = 1; i < rows.length; i++) {
-        var emailCell = rows[i].getElementsByTagName('td')[1];
-        if (emailCell) {
-          var emailText = emailCell.textContent || emailCell.innerText;
-          rows[i].style.display = emailText.toUpperCase().indexOf(filter) > -1 ? '' : 'none';
-        }
-      }
+    // Get order_id from URL parameters
+    const params = new URLSearchParams(window.location.search);
+    const orderId = params.get('order_id');
+    if (!orderId) {
+        document.getElementById('order-info').textContent = "No order ID provided.";
+    } else {
+        fetch(`order.php?order_id=${orderId}`)
+            .then(response => response.json())
+            .then(data => {
+                if(data.error) {
+                    document.getElementById('order-info').textContent = data.error;
+                    return;
+                }
+                // Display order info
+                const order = data.order;
+                const address = data.address;
+                const items = data.items;
+
+                document.getElementById('order-info').innerHTML = 
+                    `Order ID: ${order.order_id} <br/>
+                     Order Date: ${order.order_date} <br/>
+                     Total Amount: $${order.total_amount} <br/>
+                     Status: ${order.status} <br/>
+                     Payment Provider: ${order.payment_provider}`;
+                
+                // Display address info
+                if(address) {
+                    document.getElementById('address').innerHTML = 
+                        `<h2>Shipping Address</h2>
+                         <p>${address.street}, ${address.city}, ${address.postal_code}, ${address.country}</p>`;
+                }
+
+                // Display order items with image and size details, flex layout for side-by-side display
+                let itemsHtml = `<h2>Items</h2>`;
+                items.forEach(item => {
+                    itemsHtml += `<div class="order-item">
+                        <img src="${item.first_image}" alt="${item.name}">
+                        <div>
+                            <strong>${item.name}</strong> - $${item.price} x ${item.quantity}<br/>
+                            Size: ${item.size}
+                        </div>
+                    </div>`;
+                });
+                // Append total amount at the bottom
+                itemsHtml += `<div class="order-total" style="text-align: right; font-size: 18px; margin-top: 20px;">
+                                <strong>Total: $${order.total_amount}</strong>
+                              </div>`;
+                document.getElementById('items').innerHTML = itemsHtml;
+            })
+            .catch(error => {
+                document.getElementById('order-info').textContent = "Error loading order details.";
+                console.error("Error:", error);
+            });
+    }
+
+    // Event listener for completing the order
+    document.getElementById('completeBtn').addEventListener('click', () => {
+        fetch('update_order.php', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: `order_id=${orderId}&new_status=Processing`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success) {
+                window.location.href = '/orders/';   
+            } else {
+                alert(data.error);
+            }
+        })
+        .catch(error => {
+            alert("Error updating order status.");
+            console.error(error);
+        });
     });
 
-    // New code to dynamically fetch and populate today's sales
-    fetch('todays_sales.php')
-      .then(response => response.json())
-      .then(data => {
-        const tbody = document.getElementById('salesTableBody');
-        data.forEach(sale => {
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td>${sale.status}</td>
-            <td>${sale.email}</td>
-            <td class="text-right">$${Number(sale.total_amount).toFixed(2)}</td>
-          `;
-          tbody.appendChild(tr);
+    // New event listener for canceling the order
+    document.getElementById('cancelBtn').addEventListener('click', () => {
+        fetch('update_order.php', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: `order_id=${orderId}&new_status=Cancelled`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success) {
+                window.location.href = '/orders/';
+            } else {
+                alert(data.error);
+            }
+        })
+        .catch(error => {
+            alert("Error cancelling order.");
+            console.error(error);
         });
-      })
-      .catch(error => console.error('Error fetching sales:', error));
-
-    // Updated code to dynamically fetch and populate "Orders to be processed" with clickable rows
-    fetch('orders_to_process.php')
-      .then(response => response.json())
-      .then(data => {
-        const tbody = document.getElementById('ordersProcessBody');
-        data.forEach(order => {
-          const tr = document.createElement('tr');
-          tr.style.cursor = 'pointer';
-          tr.onclick = () => {
-            window.location.href = 'order.html?order_id=' + order.order_id;
-          };
-          tr.innerHTML = `
-            <td>${order.order_date}</td>
-            <td>${order.email}</td>
-            <td>${order.number_of_items}</td>
-            <td class="text-right">$${Number(order.total_amount).toFixed(2)}</td>
-          `;
-          tbody.appendChild(tr);
-        });
-      })
-      .catch(error => console.error('Error fetching pending orders:', error));
-
-    // New code to fetch and update dashboard stats
-    fetch('dashboard_stats.php')
-      .then(response => response.json())
-      .then(stats => {
-        document.getElementById('totalRevenue').textContent = '$' + stats.total_revenue;
-        document.getElementById('todaysSales').textContent = '$' + stats.todays_sales;
-        document.getElementById('ordersNotProcessed').textContent = stats.orders_not_processed;
-        document.getElementById('ordersAwaitingShipment').textContent = stats.orders_awaiting_shipment;
-      })
-      .catch(error => console.error('Error fetching dashboard stats:', error));
+    });
   </script>
 </body>
 
