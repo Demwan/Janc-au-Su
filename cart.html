@@ -1,95 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shopping Cart</title>
-<style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .cart-item {
-            border: 1px solid #ddd;
-            padding: 15px;
-            margin: 10px;
-            text-align: center;
-            width: 250px;
-            display: inline-block;
-            vertical-align: top;
-        }
-        .cart-item img {
-            max-width: 100%;
-        }
-        .cart-item h3 {
-            margin: 10px 0;
-        }
-        .cart-item p {
-            margin: 5px 0;
-        }
-        .cart-item span {
-            font-weight: bold;
-            color: #333;
-        }
-        .quantity-controls {
-            margin: 10px 0;
-        }
-        .quantity-controls button {
-            padding: 5px 10px;
-            margin: 0 5px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        .quantity-controls button:hover {
-            background-color: #0056b3;
-        }
-        .cart-total {
-            font-size: 1.2em;
-            font-weight: bold;
-            margin-top: 20px;
-        }
-        .order-button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-size: 1em;
-        }
-        .order-button:hover {
-            background-color: #218838;
-        }
-    </style>
-    <link rel="stylesheet" type="text/css" target="_blank" href="style.css" />
-</head>
-<body>
-    <nav>
-        <div class="logo">
-            <img src="i/logo.png" alt="logo" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap"
+    />
+    <link rel="stylesheet" href="cart.css" />
+  </head>
+  <body>
+    <header>
+      <div id="flexbox-header">
+        <div class="navbar-left">
+          <a href="index.html">
+            <img
+              class="navbar-icons-L"
+              src="icons/home_24dp_FFFFFF_FILL0_wght300_GRAD0_opsz24.png"
+            />
+          </a>
+          <img class="navbar-icons-L"
+          src="icons/search_24dp_FFFFFF_FILL0_wght300_GRAD0_opsz24.png">
         </div>
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="products.html">Products</a></li>
-            <li><a href="account.html">Account</a></li>
-            <li><a href="cart.html">Cart</a></li>
-        </ul>
-        <div class="hamburger">
-            <span class="line"></span>
-            <span class="line"></span>
-            <span class="line"></span>
+        <div class="navbar-center">
+          <a href="index.html">
+            <img
+              class="logo-navbar"
+              src="icons/Janc au Sú zonder achtergrond (1).png"
+            />
+          </a>
         </div>
-    </nav>
-    <h1>Your Shopping Cart</h1>
-    <div id="cart-container">
-        <!-- Cart items will be loaded here -->
+        <div class="navbar-right">
+          <a href="cart.html">
+            <img
+              class="navbar-icons-R"
+              src="icons/shopping_bag_24dp_FFFFFF_FILL0_wght300_GRAD0_opsz24.png"
+            />
+          </a>
+          <img
+            class="navbar-icons-R"
+            src="icons/account_circle_24dp_FFFFFF_FILL0_wght300_GRAD0_opsz24.png"
+          />
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+      <div class="cart-container">
+        <h1 style="text-align: center; text-transform: uppercase; font-size: 28px">
+          Your Shopping Cart
+        </h1>
+        <div id="cart-items">
+          <!-- Cart items will be loaded here -->
+        </div>
+      </div>
+      <div class="checkout-container">
+        <button class="order-button" onclick="goToCheckout()">
+          <img src="secure-payment.png" alt="Checkout Icon" /> Proceed to Checkout
+        </button>
+        <button class="paypal-button">
+          <img src="paypal.png" alt="PayPal Icon" /> PayPal
+        </button>
+        <div class="cart-total">
+          <p>Subtotal: <span id="subtotal">€0.00</span></p>
+          <p>Shipping: <span>€0.00</span></p>
+          <p>Total: <span id="total">€0.00</span></p>
+        </div>
+      </div>
     </div>
-    <div id="cart-total" class="cart-total"></div>
-    <button id="order-button" class="order-button" style="display: none;" onclick="goToCheckout()">Place Order</button>
 
     <script>
-    // Function to check if the user is logged in
     async function isLoggedIn() {
         try {
             const response = await fetch('check_login_status.php');
@@ -101,7 +82,6 @@
         }
     }
 
-    // Function to fetch the cart from the database
     async function getCartFromDatabase() {
         try {
             const response = await fetch('fetch_cart.php');
@@ -112,9 +92,7 @@
         }
     }
 
-    // Function to save the cart to the database
     async function saveCartToDatabase(cart) {
-        console.log(cart)
         try {
             await fetch('update_cart.php', {
                 method: 'POST',
@@ -128,7 +106,6 @@
         }
     }
 
-    // Function to get the cart from cookies
     function getCartFromCookies() {
         const cookies = document.cookie.split('; ').find(row => row.startsWith('cart='));
         try {
@@ -139,16 +116,14 @@
         }
     }
 
-    // Function to save the cart back to cookies
     function saveCartToCookies(cart) {
         document.cookie = `cart=${JSON.stringify(cart)}; path=/`;
     }
 
-    // Function to load the cart
     async function loadCart() {
-        const container = document.getElementById('cart-container');
-        const totalContainer = document.getElementById('cart-total');
-        const orderButton = document.getElementById('order-button');
+        const container = document.getElementById('cart-items');
+        const subtotalElement = document.getElementById('subtotal');
+        const totalElement = document.getElementById('total');
 
         let cart = [];
         const loggedIn = await isLoggedIn();
@@ -160,17 +135,16 @@
         }
 
         if (cart.length === 0) {
-            container.innerHTML = '<p>Your cart is empty.</p>';
-            totalContainer.textContent = '';
-            orderButton.style.display = 'none';
+            container.innerHTML = '<p style="text-align: center">Your cart is empty.</p>';
+            subtotalElement.textContent = '€0.00';
+            totalElement.textContent = '€0.00';
             return;
         }
 
-        // Fetch product details
         fetch('fetch_products.php')
             .then(response => response.json())
             .then(products => {
-                container.innerHTML = ''; // Clear container before populating
+                container.innerHTML = '';
                 let total = 0;
 
                 cart.forEach(item => {
@@ -179,28 +153,22 @@
                         const itemDiv = document.createElement('div');
                         itemDiv.classList.add('cart-item');
                         itemDiv.innerHTML = `
-                            <img src="${product.image_url}" alt="${product.name}">
-                            <h3>${product.name}</h3>
-                            <p>${product.description}</p>
-                            <p>Size: ${item.size || 'N/A'}</p>
-                            <span>Price: €${product.price}</span>
-                            <div class="quantity-controls">
-                                <button onclick="decreaseQuantity(${product.id}, '${item.size}')">-</button>
-                                <span>Quantity: ${item.quantity}</span>
-                                <button onclick="increaseQuantity(${product.id}, '${item.size}')">+</button>
+                            <img src="${product.image_url}" alt="${product.name}" />
+                            <p>${product.name}</p>
+                            <p>€${product.price.toFixed(2)}</p>
+                            <div class="quantity-selector">
+                                <button class="minus-btn" onclick="decreaseQuantity(${product.id}, '${item.size}')">−</button>
+                                <span class="quantity">${item.quantity}</span>
+                                <button class="plus-btn" onclick="increaseQuantity(${product.id}, '${item.size}')">+</button>
                             </div>
-                            <span>Total: €${(product.price * item.quantity).toFixed(2)}</span>
                         `;
                         container.appendChild(itemDiv);
-
-                        // Add to the total price
                         total += product.price * item.quantity;
                     }
                 });
 
-                // Display total price and show the order button
-                totalContainer.textContent = `Cart Total: €${total.toFixed(2)}`;
-                orderButton.style.display = 'block';
+                subtotalElement.textContent = `€${total.toFixed(2)}`;
+                totalElement.textContent = `€${total.toFixed(2)}`;
             })
             .catch(error => {
                 console.error('Error fetching product data:', error);
@@ -208,89 +176,53 @@
             });
     }
 
-// Function to increase the quantity of a product
-async function increaseQuantity(productId, size) {
-    console.log('Increase triggered for:', { productId, size });
+    async function increaseQuantity(productId, size) {
+        const loggedIn = await isLoggedIn();
+        let cart = loggedIn ? await getCartFromDatabase() : getCartFromCookies();
 
-    const loggedIn = await isLoggedIn();
-    let cart = loggedIn ? await getCartFromDatabase() : getCartFromCookies();
+        const item = cart.find(
+            item => String(item.productId) === String(productId) && String(item.size) === String(size)
+        );
 
-    console.log('Cart before update:', cart);
-
-    // Find item in the cart
-    const item = cart.find(
-        item => String(item.productId) === String(productId) && String(item.size) === String(size)
-    );
-
-    if (item) {
-        item.quantity += 1; // Increase quantity
-        console.log('Updated item:', item);
-    } else {
-        console.warn('Item not found in cart:', { productId, size });
-    }
-
-    console.log('Cart after update:', cart);
-
-    if (loggedIn) {
-        console.log('Saving updated cart to database...');
-        await saveCartToDatabase(cart);
-    } else {
-        console.log('Saving updated cart to cookies...');
-        saveCartToCookies(cart);
-    }
-
-    console.log('Cart saved. Reloading cart...');
-    loadCart(); // Refresh the cart display
-}
-
-
-// Function to decrease the quantity of a product
-async function decreaseQuantity(productId, size) {
-    console.log('Decrease triggered for:', { productId, size });
-    
-    const loggedIn = await isLoggedIn();
-    let cart = loggedIn ? await getCartFromDatabase() : getCartFromCookies();
-
-    console.log('Cart before update:', cart);
-
-    // Find item in the cart
-    const itemIndex = cart.findIndex(
-        item => String(item.productId) === String(productId) && String(item.size) === String(size)
-    );
-
-    if (itemIndex !== -1) {
-        cart[itemIndex].quantity -= 1;
-        if (cart[itemIndex].quantity <= 0) {
-            console.log('Removing item from cart:', cart[itemIndex]);
-            cart.splice(itemIndex, 1); // Remove item if quantity is 0
+        if (item) {
+            item.quantity += 1;
+            if (loggedIn) {
+                await saveCartToDatabase(cart);
+            } else {
+                saveCartToCookies(cart);
+            }
+            loadCart();
         }
-    } else {
-        console.warn('Item not found in cart:', { productId, size });
     }
 
-    console.log('Cart after update:', cart);
+    async function decreaseQuantity(productId, size) {
+        const loggedIn = await isLoggedIn();
+        let cart = loggedIn ? await getCartFromDatabase() : getCartFromCookies();
 
-    if (loggedIn) {
-        console.log('Saving updated cart to database...');
-        await saveCartToDatabase(cart);
-    } else {
-        console.log('Saving updated cart to cookies...');
-        saveCartToCookies(cart);
-    }
+        const itemIndex = cart.findIndex(
+            item => String(item.productId) === String(productId) && String(item.size) === String(size)
+        );
 
-    console.log('Cart saved. Reloading cart...');
-    loadCart(); // Refresh the cart display
-}
-
-
-
-        // Function to go to the checkout page
-        function goToCheckout() {
-            window.location.href = 'checkout.html';
+        if (itemIndex !== -1) {
+            cart[itemIndex].quantity -= 1;
+            if (cart[itemIndex].quantity <= 0) {
+                cart.splice(itemIndex, 1);
+            }
+            if (loggedIn) {
+                await saveCartToDatabase(cart);
+            } else {
+                saveCartToCookies(cart);
+            }
+            loadCart();
         }
+    }
 
-        // Load cart items when the page is ready
-        loadCart();
+    function goToCheckout() {
+        window.location.href = 'checkout.html';
+    }
+
+    // Load cart items when the page is ready
+    document.addEventListener('DOMContentLoaded', loadCart);
     </script>
-</body>
+  </body>
 </html>
