@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Janc au Sû</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+  </head>
+
+  <body>
+    <div class="navbar">
+      <div class="nav-left">
+        <a href="#">Home</a>
+        <a href="about.html">About</a>
+      </div>
+      <div class="nav-center">
+        <div class="logo">Janc au Sû</div>
+        <div class="logo-subtitle">Est. 1923</div>
+      </div>
+      <div class="nav-right">
+        <a href="#">Account</a>
+        <a href="cart.html">Cart</a>
+      </div>
+    </div>
+
+    <section class="hero">
+      <img class="background-image" src="oja.jpg" alt="Background" />
+      <div class="overlay">
+        <a href="#intro-section">
+          <h1>Shop Now</h1>
+        </a>
+      </div>
+    </section>
+
+    <section id="intro-section" class="intro">
+      <h2>Janc au Sû is timeless quality</h2>
+      <p>Looking for the perfect fit</p>
+    </section>
+
+    <div class="product-slider">
+      <h3>Onze Collectie</h3>
+      <button class="slider-btn prev-btn" aria-label="Vorige">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <div class="slider-container">
+        <div class="product">
+          <img src="product1.jpg" alt="Product 1" />
+          <p>Product 1</p>
+        </div>
+        <div class="product">
+          <img src="product2.jpg" alt="Product 2" />
+          <p>Product 2</p>
+        </div>
+        <div class="product">
+          <img src="product3.jpg" alt="Product 3" />
+          <p>Product 3</p>
+        </div>
+        <div class="product">
+          <img src="product4.jpg" alt="Product 4" />
+          <p>Product 4</p>
+        </div>
+        <div class="product">
+          <img src="product5.jpg" alt="Product 5" />
+          <p>Product 5</p>
+        </div>
+        <div class="product">
+          <img src="product6.jpg" alt="Product 6" />
+          <p>Product 6</p>
+        </div>
+        <div class="product">
+          <img src="product6.jpg" alt="Product 6" />
+          <p>Product 6</p>
+        </div>
+      </div>
+      <button class="slider-btn next-btn" aria-label="Volgende">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+
+    <section class="categories">
+      <div class="category">
+        <div class="category-image"></div>
+        <p>Tops</p>
+      </div>
+      <div class="category">
+        <div class="category-image"></div>
+        <p>Pants</p>
+      </div>
+      <div class="category">
+        <div class="category-image"></div>
+        <p>Watches</p>
+      </div>
+      <div class="category">
+        <div class="category-image"></div>
+        <p>Shoes</p>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-container">
+        <div class="footer-section">
+          <h4>Customer Service</h4>
+          <ul>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">FAQs</a></li>
+            <li><a href="#">Repairs</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>About Us</h4>
+          <ul>
+            <li><a href="#">Our Story</a></li>
+            <li><a href="#">Sustainability</a></li>
+            <li><a href="#">Careers</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Follow Us</h4>
+          <div class="footer-social-icons">
+            <a
+              href="https://www.facebook.com/rijschoolmaudvangent?locale=nl_NL"
+              aria-label="Facebook"
+              ><i class="fab fa-facebook-f"></i
+            ></a>
+            <a href="#" aria-label="Instagram"
+              ><i class="fab fa-instagram"></i
+            ></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="LinkedIn"
+              ><i class="fab fa-linkedin-in"></i
+            ></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Janc au Sù. All Rights Reserved.</p>
+      </div>
+    </footer>
+    <script
+      src="//code.tidio.co/xqsoynp90zf3vgixzbxxnwz7zkxzgcee.js"
+      async
+    ></script>
+  </body>
+</html>
