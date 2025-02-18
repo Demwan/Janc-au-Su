@@ -112,12 +112,10 @@ header {
   background: #444;
 }
 .paypal-button {
-  background: linear-gradient(90deg, #002d62, #0070ba);
-  color: white;
+  background: white;
+  border: 1px solid #ddd;
 }
-.paypal-button:hover {
-  background: linear-gradient(90deg, #001f4d, #005ea6);
-}
+
 .order-button img {
   height: 25px;
   margin-right: 10px;
