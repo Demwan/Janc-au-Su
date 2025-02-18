@@ -1,4 +1,9 @@
 run = "php -S localhost:8000"
 
 [deployment]
-run = ["sh", "-c", "php -S localhost:8000"]
+run = ["php -S localhost:8000"]
+
+[[ports]]
+localPort = 8000
+externalPort = 80
+exposeLocalhost = true
