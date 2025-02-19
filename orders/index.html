@@ -190,10 +190,6 @@
         gap: 1rem;
       }
     }
-    /* zoek uit waar dit bij hoort */
-    display: flex;
-      justify-content: center;
-    }
 
     .container {
       width: 90%;
@@ -238,7 +234,6 @@
       text-align: left;
     }
 
-
     tr:hover {
       background: #f1f1f1;
     }
@@ -251,6 +246,25 @@
       background: none;
       border: none;
       cursor: pointer;
+    }
+
+    .loading-spinner {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      border: 4px solid #f3f3f3; /* Light gray */
+      border-radius: 50%;
+      border-top: 4px solid #3498db; /* Blue */
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .error-message {
+      color: red;
     }
   </style>
 </head>
@@ -326,7 +340,11 @@
                 </tr>
               </thead>
               <tbody id="ordersProcessBody">
-                <p>No orders waiting</p>
+                <tr>
+                    <td colspan="4" class="text-center" id="ordersLoadingState">
+                        <div class="loading-spinner"></div>
+                    </td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -383,31 +401,52 @@
           tbody.appendChild(tr);
         });
       })
-      .catch(error => console.error('Error fetching sales:', error));
+      .catch(error => {
+        console.error('Error fetching sales:', error);
+        const tbody = document.getElementById('salesTableBody');
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td colspan="3" class="text-center error-message">${error.message}</td>`;
+        tbody.appendChild(tr);
+      });
 
-    // Updated code to dynamically fetch and populate "Orders to be processed" with clickable rows
+    // Updated code to dynamically fetch and populate "Orders to be processed" with clickable rows and error handling
     fetch('orders_to_process.php')
       .then(response => response.json())
       .then(data => {
         const tbody = document.getElementById('ordersProcessBody');
-        data.forEach(order => {
-          const tr = document.createElement('tr');
-          tr.style.cursor = 'pointer';
-          tr.onclick = () => {
-            window.location.href = 'order.html?order_id=' + order.order_id;
-          };
-          tr.innerHTML = `
-            <td>${order.order_date}</td>
-            <td>${order.email}</td>
-            <td>${order.number_of_items}</td>
-            <td class="text-right">$${Number(order.total_amount).toFixed(2)}</td>
-          `;
-          tbody.appendChild(tr);
-        });
-      })
-      .catch(error => console.error('Error fetching pending orders:', error));
+        const loadingState = document.getElementById('ordersLoadingState');
+        loadingState.remove(); //Remove loading indicator once data is received
 
-    // New code to fetch and update dashboard stats
+        if (data.length === 0) {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td colspan="4" class="text-center">No orders found</td>`;
+          tbody.appendChild(tr);
+        } else {
+          data.forEach(order => {
+            const tr = document.createElement('tr');
+            tr.style.cursor = 'pointer';
+            tr.onclick = () => {
+              window.location.href = 'order.html?order_id=' + order.order_id;
+            };
+            tr.innerHTML = `
+              <td>${order.order_date}</td>
+              <td>${order.email}</td>
+              <td>${order.number_of_items}</td>
+              <td class="text-right">$${Number(order.total_amount).toFixed(2)}</td>
+            `;
+            tbody.appendChild(tr);
+          });
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching pending orders:', error);
+        const tbody = document.getElementById('ordersProcessBody');
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td colspan="4" class="text-center error-message">${error.message}</td>`;
+        tbody.appendChild(tr);
+      });
+
+    // New code to fetch and update dashboard stats with error handling
     fetch('dashboard_stats.php')
       .then(response => response.json())
       .then(stats => {
@@ -416,7 +455,15 @@
         document.getElementById('ordersNotProcessed').textContent = stats.orders_not_processed;
         document.getElementById('ordersAwaitingShipment').textContent = stats.orders_awaiting_shipment;
       })
-      .catch(error => console.error('Error fetching dashboard stats:', error));
+      .catch(error => {
+        console.error('Error fetching dashboard stats:', error);
+        //Consider adding error display for dashboard stats as well.  Example below:
+        //const statCards = document.querySelectorAll('.stat-card');
+        //statCards.forEach(card => {
+        //  card.innerHTML += `<p class="error-message">${error.message}</p>`;
+        //});
+
+      });
   </script>
 </body>
 
