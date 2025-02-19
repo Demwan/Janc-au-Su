@@ -35,6 +35,27 @@
         .error {
             color: red;
         }
+        .image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .image-gallery img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        .image-gallery img:hover {
+            border-color: #28a745;
+        }
+        .main-image {
+            max-width: 300px;
+            height: auto;
+            margin-bottom: 10px;
+        }
     </style>
     <link rel="stylesheet" type="text/css" target="_blank" href="style.css" />
 
@@ -85,7 +106,12 @@
     <div id="product-container">
         <!-- Product Section -->
         <div id="product" class="product" style="display: none;">
-            <img id="product-image" src="" alt="Product Image">
+            <div class="product-images">
+                <img id="product-image" class="main-image" src="" alt="Product Image">
+                <div id="secondary-images" class="image-gallery">
+                    <!-- Secondary images will be inserted here -->
+                </div>
+            </div>
             <div class="product-details">
                 <h2 id="product-name"></h2>
                 <p id="product-description"></p>
@@ -135,6 +161,25 @@
                     document.getElementById('product-name').textContent = product.name;
                     document.getElementById('product-description').textContent = product.description;
                     document.getElementById('product-price').textContent = parseFloat(product.price).toFixed(2);
+
+                    // Add main image to gallery
+                    const galleryContainer = document.getElementById('secondary-images');
+                    const mainImageThumb = document.createElement('img');
+                    mainImageThumb.src = product.image_url;
+                    mainImageThumb.onclick = () => document.getElementById('product-image').src = product.image_url;
+                    galleryContainer.appendChild(mainImageThumb);
+
+                    // Add secondary images to gallery
+                    if (product.secondary_images && product.secondary_images.length > 0) {
+                        product.secondary_images.forEach(imgUrl => {
+                            if (imgUrl.trim()) {  // Only add if URL is not empty
+                                const img = document.createElement('img');
+                                img.src = imgUrl.trim();
+                                img.onclick = () => document.getElementById('product-image').src = imgUrl.trim();
+                                galleryContainer.appendChild(img);
+                            }
+                        });
+                    }
 
                     // Populate the size dropdown with sizes fetched from the database
                     const sizeSelect = document.getElementById('size-select');

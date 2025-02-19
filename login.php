@@ -64,8 +64,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Clear the cart cookie
             setcookie('cart', '', time() - 3600, '/');
 
-
-            header("Location: dashboard.php");
+            // Check for custom redirect parameter using "r"
+            $redirect = (isset($_REQUEST['r']) && !empty($_REQUEST['r'])) ? $_REQUEST['r'] : 'dashboard.php';
+            header("Location: $redirect");
             echo "Login successful! Redirecting...";
             exit();
         } else {

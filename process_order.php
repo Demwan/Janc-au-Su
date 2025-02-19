@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 
 session_start();
 if (!isset($_SESSION['user_id'])) {
-  header("Location: /login");
+  echo("You are not logged in.");
   exit();}
 
 $user_id = $_SESSION['user_id'];
@@ -72,6 +72,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Clear the cart cookie
     setcookie('cart', '', time() - 3600, '/');
+
+    // Clear the cart in the database
+    $clear_cart_stmt = $conn->prepare("UPDATE users SET cart = '[]' WHERE user_id = ?");
+    $clear_cart_stmt->execute([$user_id]);
 
     // Redirect to thank you page
     header('Location: thank_you.php?order_id=' . $order_id);

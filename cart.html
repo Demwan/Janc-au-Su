@@ -21,8 +21,10 @@
               src="i/home.png"
             />
           </a>
+          <a href="products.html">
           <img class="navbar-icons-L"
           src="i/search.png">
+          </a>
         </div>
         <div class="navbar-center">
           <a href="index.html">
@@ -39,10 +41,12 @@
               src="i/shopping_bag.png"
             />
           </a>
+          <a href="account.html">
           <img
             class="navbar-icons-R"
             src="i/account.png"
           />
+          </a>
         </div>
       </div>
     </header>
@@ -58,7 +62,7 @@
       </div>
       <div class="checkout-container">
         <button class="order-button" onclick="goToCheckout()">
-          <img src="secure-payment.png" alt="Checkout Icon" /> Proceed to Checkout
+          <img src="i/credit_card.png" alt="Checkout Icon" /> Proceed to Checkout
         </button>
         <button class="paypal-button">
           <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/2560px-PayPal.svg.png" alt="PayPal Icon" />
@@ -154,9 +158,12 @@
                         const itemDiv = document.createElement('div');
                         itemDiv.classList.add('cart-item');
                         itemDiv.innerHTML = `
+                            <div onClick="window.location.href='product.html?id=${product.id}'" style="cursor: pointer; text-align: center;">
                             <img src="${product.image_url}" alt="${product.name}" />
                             <p>${product.name}</p>
-                            <p>€${Number(product.price).toFixed(2)}</p>
+                            <p>Size: ${item.size}</p>
+                            <p>Price per item: €${Number(product.price).toFixed(2)}</p>
+                            </div>
                             <div class="quantity-selector">
                                 <button class="minus-btn" onclick="decreaseQuantity(${product.id}, '${item.size}')">−</button>
                                 <span class="quantity">${item.quantity}</span>

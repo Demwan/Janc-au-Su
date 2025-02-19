@@ -16,8 +16,8 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 }
 $product_id = intval($_GET['id']);
 
-// Prepare and execute the PDO query to fetch product details including available sizes
-$sql = "SELECT id, name, description, price, image_url, available_sizes FROM products WHERE id = :id";
+// Prepare and execute the PDO query to fetch product details including available sizes and secondary images
+$sql = "SELECT id, name, description, price, image_url, secondary_image_url, available_sizes FROM products WHERE id = :id";
 $stmt = $conn->prepare($sql);
 $stmt->bindParam(':id', $product_id, PDO::PARAM_INT);
 
@@ -31,7 +31,9 @@ $product = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($product) {
     $sizes = isset($product['available_sizes']) ? explode(',', $product['available_sizes']) : [];
+    $secondary_images = isset($product['secondary_image_url']) ? explode(',', $product['secondary_image_url']) : [];
     $product['sizes'] = $sizes;
+    $product['secondary_images'] = $secondary_images;
     echo json_encode($product);
 } else {
     echo json_encode(["error" => "Product not found"]);

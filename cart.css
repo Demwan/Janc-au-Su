@@ -2,7 +2,7 @@ body {
   font-family: "Playfair Display", serif;
   margin: 0;
   padding: 0;
-  background-color: #f8f7f5;
+  background-color: #fff;
   color: #1d1d1d;
   display: flex;
   flex-direction: column;
@@ -83,12 +83,13 @@ header {
   margin-top: 30px;
 }
 .checkout-container {
-  background: white;
+  background: #f8f7f5;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   width: 300px;
   margin-top: 50px;
+  max-height: 300px;
 }
 .checkout-container .order-button,
 .paypal-button {
@@ -121,7 +122,7 @@ header {
   margin-right: 10px;
 }
 .paypal-button img {
-  height: 16px;
+  height: 22px;
   margin-right: 10px;
 }
 .quantity-selector {

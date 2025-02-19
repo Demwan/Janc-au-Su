@@ -243,6 +243,7 @@
             </div>
             <span class="span">Forgot password?</span>
         </div>
+        <input type="hidden" name="r" id="redirect" value="">
         <button class="button-submit">Sign In</button>
         <p class="p">Don't have an account? <a href="register.html" class="span">Sign Up</a></p>
     </form>
@@ -303,5 +304,12 @@
 
         // Controleer status direct na het laden van de pagina
         document.addEventListener('DOMContentLoaded', checkLoginStatus);
+
+    // Set the hidden "r" field from the URL if available
+    const redirectParam = urlParams.get('r');
+    if (redirectParam) {
+        console.log('Redirecting to: ' + redirectParam);
+        document.getElementById('redirect').value = redirectParam;
+    }
 </script></body>
 </html>
