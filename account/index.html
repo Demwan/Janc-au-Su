@@ -138,16 +138,19 @@
   width: 5vh;
   height: 5vh;
 }
+        
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            fetch('fetch_orders.php')
+            fetch('/account/fetch_orders.php')
                 .then(response => response.json())
                 .then(data => {
                     if (data.error) {
-                        alert(data.error);
                         window.location.href = '/login.html?redirect=/account/';
                         return;
+                    }
+                    if (data.orders.length == 0) {
+                        document.getElementById('card').innerHTML = '<p>No orders found</p>';
                     }
 
                     const tbody = document.querySelector('.orders-table tbody');
@@ -192,8 +195,7 @@
                     });
                 })
                 .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error loading orders');
+                    
                 });
         });
     </script>
@@ -243,7 +245,7 @@
             <p>View and track your recent orders</p>
         </div>
 
-        <div class="card">
+        <div class="card" id="card">
             <table class="orders-table">
                 <thead>
                     <tr>
@@ -256,38 +258,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>#12345</td>
-                        <td>January 15, 2025</td>
-                        <td>$105.98</td>
-                        <td><span class="status-badge status-delivered">Delivered</span></td>
-                        <td>John Doe</td>
-                        <td><a href="#" class="order-link">View Order</a></td>
-                    </tr>
-                    <tr>
-                        <td>#12344</td>
-                        <td>January 12, 2025</td>
-                        <td>$234.50</td>
-                        <td><span class="status-badge status-transit">In Transit</span></td>
-                        <td>John Doe</td>
-                        <td><a href="#" class="order-link">View Order</a></td>
-                    </tr>
-                    <tr>
-                        <td>#12343</td>
-                        <td>January 10, 2025</td>
-                        <td>$87.25</td>
-                        <td><span class="status-badge status-processing">Processing</span></td>
-                        <td>John Doe</td>
-                        <td><a href="#" class="order-link">View Order</a></td>
-                    </tr>
-                    <tr>
-                        <td>#12342</td>
-                        <td>January 5, 2025</td>
-                        <td>$156.75</td>
-                        <td><span class="status-badge status-delivered">Delivered</span></td>
-                        <td>John Doe</td>
-                        <td><a href="#" class="order-link">View Order</a></td>
-                    </tr>
                 </tbody>
             </table>
         </div>

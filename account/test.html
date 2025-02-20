@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>LV Trainers - Louis Vuitton</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        header {
+            background-color: #111;
+            color: #fff;
+            padding: 10px 0;
+        }
+
+        header h1 {
+            text-align: center;
+            margin: 0;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            text-align: center;
+            margin: 10px 0 0 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        .product {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .product img {
+            max-width: 100%;
+            height: auto;
+            margin-right: 20px;
+        }
+
+        .product-details {
+            max-width: 500px;
+        }
+
+        .product-details h2 {
+            margin-top: 0;
+        }
+
+        .price {
+            font-size: 1.5em;
+            color: #b12704;
+        }
+
+        .features {
+            list-style: none;
+            padding: 0;
+        }
+
+        .features li {
+            background: url('checkmark.png') no-repeat left center;
+            padding-left: 20px;
+            margin-bottom: 5px;
+        }
+
+        .add-to-cart {
+            background-color: #111;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .add-to-cart:hover {
+            background-color: #333;
+        }
+
+        footer {
+            background-color: #f8f8f8;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Louis Vuitton</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Heren</a></li>
+                <li><a href="#">Dames</a></li>
+                <li><a href="#">Accessoires</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="product">
+            <img src="product-image.jpg" alt="LV Trainers">
+            <div class="product-details">
+                <h2>LV Trainers</h2>
+                <p class="price">€1.020,00</p>
+                <p class="description">
+                    Ontworpen door Louis Vuitton's artistiek directeur Virgil Abloh, worden de iconische LV Trainers dit seizoen opnieuw uitgebracht in Monogram denim en Monogram-gestempeld generfd kalfsleer. De contrasterende kleuren en materialen benadrukken de uitgebreide constructie van dit model, dat is geïnspireerd op vintage basketbalschoenen. Een enkel paar vergt zeven uur om te stikken.
+                </p>
+                <ul class="features">
+                    <li>Kleur: Blauw</li>
+                    <li>Materiaal: Monogram denim en Monogram-gestempeld generfd kalfsleer</li>
+                    <li>Rubberen buitenzool</li>
+                    <li>LV Initialen op de tong, zijkant en achterkant</li>
+                    <li>Vuitton-handtekening op de zijkant</li>
+                    <li>Monogram Bloemen op de buitenzool</li>
+                    <li>Gemaakt in Italië</li>
+                </ul>
+                <button class="add-to-cart">In winkelwagen</button>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 Louis Vuitton. Alle rechten voorbehouden.</p>
+    </footer>
+</body>
+</html>
