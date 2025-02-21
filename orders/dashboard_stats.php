@@ -1,5 +1,9 @@
 <?php
 include __DIR__ . '/../db_connect.php';
+include __DIR__ . '/../auth_helper.php';
+
+header('Content-Type: application/json');
+requireStaffAccess($conn);
 
 // Query for total revenue from all orders
 $stmt1 = $conn->prepare("SELECT SUM(total_amount) AS total_revenue FROM orders");
@@ -21,7 +25,6 @@ $stmt4 = $conn->prepare("SELECT COUNT(*) AS orders_awaiting_shipment FROM orders
 $stmt4->execute();
 $ordersAwaitingShipment = $stmt4->fetch(PDO::FETCH_ASSOC)['orders_awaiting_shipment'];
 
-header('Content-Type: application/json');
 echo json_encode([
     'total_revenue' => $totalRevenue ? number_format($totalRevenue, 2) : "0.00",
     'todays_sales' => $todaysSales ? number_format($todaysSales, 2) : "0.00",

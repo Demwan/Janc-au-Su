@@ -1,0 +1,238 @@
+/* Global Styles */
+html {
+    width: 100%;
+    margin: 0px auto;
+}
+
+body {
+    margin: 0px auto;
+    font-family: 'Italiana';
+}
+
+/* Header Styles */
+header {
+    background-color: #122620;
+    text-align: center;
+    width: 100%;
+    height: 5.5rem;
+}
+
+#flexbox-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: 5.5rem;
+}
+
+/* Navigation Styles */
+.navbar-left, 
+.navbar-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navbar-icons-L {
+    margin-left: 3vh;
+    width: 5vh;
+    height: 5vh;
+}
+
+.navbar-icons-R {
+    margin-right: 3vh;
+    width: 5vh;
+    height: 5vh;
+}
+
+.logo-navbar {
+    width: 100%;
+    height: 100%;
+}
+
+/* Product Display Layout */
+.product-display {
+    max-width: 100%;
+    display: flex;
+    min-height: 100vh;
+}
+
+.product-foto {
+    width: 50%;
+    height: 100%;
+    overflow-y: auto;
+    padding-right: 20px;
+}
+
+#product-images-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.vertical-images {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Product Information Styles */
+.product-information {
+    width: 50%;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 20px;
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.merino-wool-zip-up {
+    margin: 2vh;
+}
+
+.description {
+    width: 50%;
+    font-size: 2.5vh;
+}
+
+/* Size Selection Styles */
+.choices {
+    width: 50%;
+}
+
+.size {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.size-line {
+    color: black;
+    width: 100%;
+}
+
+.size-text {
+    font-size: 3vh;
+    margin: 0.5vh;
+}
+
+/* Size Dropdown Styles */
+.size-dropdown {
+    display: none;
+    position: absolute;
+    top: 40px;
+    left: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    width: 120px;
+    z-index: 100;
+}
+
+.size-dropdown ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.size-dropdown li {
+    padding: 8px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.size-dropdown li:hover {
+    background-color: #f0f0f0;
+}
+
+/* Button Styles */
+.transparant-button {
+    background-color: white;
+    border: none;
+}
+
+.add-to-bag {
+    background-color: black;
+    text-align: center;
+    color: white;
+    border-radius: 5vh;
+    border: none;
+    width: 100%;
+    padding: 1vh 3vh;
+    font-size: 2vh;
+}
+
+.add-to-bag-text {
+    font-family: 'Italiana';
+}
+
+/* Product Care Styles */
+.product-care {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.product-care-text {
+    display: none;
+    font-size: 2.3vh;
+    margin-top: 1vh;
+    width: 50%;
+}
+
+/* Icon Styles */
+.chevron-right {
+    width: 5vh;
+    height: 5vh;
+    padding: 1vh;
+}
+
+.arrow-down {
+    width: 5vh;
+    height: 5vh;
+    padding-left: 1vh;
+}
+
+/* Image Gallery Styles */
+.image-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.image-gallery img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.image-gallery img:hover {
+    border-color: #28a745;
+}
+
+.main-image {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+/* Misc Styles */
+hr {
+    margin: 0px;
+}

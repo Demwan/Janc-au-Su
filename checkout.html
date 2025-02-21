@@ -6,10 +6,8 @@
 <script src="blob:https://jancausu.great-site.net/67632881-a7f6-446f-9513-8bac397ab30e"></script>
 <style id="ReanimatedPredefinedWebAnimationsStyle"></style>
 <style id="ReanimatedCustomWebAnimationsStyle"></style>
-</head>
+<title>Janc au Su</title>
 
-<body><button onclick="history.back()">Go Back</button>
-    <title>Checkout</title>
     <style>
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -333,24 +331,61 @@
                 margin-bottom: 1rem;
             }
         }
+        .back-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  color: white;
+  background-color: #000000;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.back-button:hover {
+  background-color: #333333;
+}
+
+.back-button svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Optional: Add focus styles for accessibility */
+.back-button:focus {
+  outline: 2px solid #666666;
+  outline-offset: 2px;
+}
     </style>
+    </head>
+    <body>
 
 
 
     <div class="checkout-container">
         <!-- Checkout Form Section -->
         <div class="checkout-left">
+
+            <button class="back-button" onclick="window.history.back()">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Go Back
+              </button>
             <h1>Checkout</h1>
             <form id="checkout-form" class="form-inputs" action="process_order.php" method="POST">
                 <h2>User Information</h2>
                 <div class="user-info">
                     <p>Logged in as <strong id="name"></strong></p>
-                    <a href="/login.html?r=cart.html">Not You?</a>
+                    <a href="/logout.html">Not You?</a>
                 </div>
 
                 <h2>Past Addresses</h2>
                 <div id="past_addresses" class="past-addresses">
-                    
+                    <p>No prevouisly used addresses found.</p>
                 </div>
                 
 
@@ -518,20 +553,72 @@
         }
 
         function selectAddress(addressDiv, address) {
-            // Gray out the form fields and set values from selected address
-            document.querySelector('input[name="address"]').value = address.street;
-            document.querySelector('input[name="city"]').value = address.city;
-            document.querySelector('input[name="postal_code"]').value = address.postal_code;
-            document.getElementById('country-selector').innerHTML = `<input type="text" name="country" value="${address.country}" readonly>`;
+            // Check if this address is already selected
+            if (addressDiv.classList.contains('selected')) {
+                // Unselect the address
+                addressDiv.classList.remove('selected');
+                
+                // Clear and enable the form fields
+                document.querySelector('input[name="address"]').value = '';
+                document.querySelector('input[name="city"]').value = '';
+                document.querySelector('input[name="postal_code"]').value = '';
+                
+                // Restore the country selector dropdown
+                document.getElementById('country-selector').innerHTML = `
+                    <select name="country" required>
+                        <option value="">Country/Region</option>
+                        <option value="Austria">Austria</option>
+                        <option value="Belgium">Belgium</option>
+                        <option value="Bulgaria">Bulgaria</option>
+                        <option value="Croatia">Croatia</option>
+                        <option value="Cyprus">Cyprus</option>
+                        <option value="Czech Republic">Czech Republic</option>
+                        <option value="Denmark">Denmark</option>
+                        <option value="Estonia">Estonia</option>
+                        <option value="Finland">Finland</option>
+                        <option value="France">France</option>
+                        <option value="Germany">Germany</option>
+                        <option value="Greece">Greece</option>
+                        <option value="Hungary">Hungary</option>
+                        <option value="Iceland">Iceland</option>
+                        <option value="Ireland">Ireland</option>
+                        <option value="Italy">Italy</option>
+                        <option value="Latvia">Latvia</option>
+                        <option value="Lithuania">Lithuania</option>
+                        <option value="Luxembourg">Luxembourg</option>
+                        <option value="Malta">Malta</option>
+                        <option value="Netherlands">Netherlands</option>
+                        <option value="Norway">Norway</option>
+                        <option value="Poland">Poland</option>
+                        <option value="Portugal">Portugal</option>
+                        <option value="Romania">Romania</option>
+                        <option value="Slovakia">Slovakia</option>
+                        <option value="Slovenia">Slovenia</option>
+                        <option value="Spain">Spain</option>
+                        <option value="Sweden">Sweden</option>
+                        <option value="Switzerland">Switzerland</option>
+                    </select>`;
 
-            // Disable the fields
-            document.querySelector('input[name="address"]').setAttribute('readonly', 'true');
-            document.querySelector('input[name="city"]').setAttribute('readonly', 'true');
-            document.querySelector('input[name="postal_code"]').setAttribute('readonly', 'true');
+                // Remove readonly attribute from fields
+                document.querySelector('input[name="address"]').removeAttribute('readonly');
+                document.querySelector('input[name="city"]').removeAttribute('readonly');
+                document.querySelector('input[name="postal_code"]').removeAttribute('readonly');
+            } else {
+                // Select the new address
+                document.querySelectorAll('.past-address').forEach(addr => addr.classList.remove('selected'));
+                addressDiv.classList.add('selected');
 
-            // Mark the selected address
-            document.querySelectorAll('.past-address').forEach(addr => addr.classList.remove('selected'));
-            addressDiv.classList.add('selected');
+                // Fill and disable form fields
+                document.querySelector('input[name="address"]').value = address.street;
+                document.querySelector('input[name="city"]').value = address.city;
+                document.querySelector('input[name="postal_code"]').value = address.postal_code;
+                document.getElementById('country-selector').innerHTML = `<input type="text" name="country" value="${address.country}" readonly>`;
+
+                // Add readonly attribute to fields
+                document.querySelector('input[name="address"]').setAttribute('readonly', 'true');
+                document.querySelector('input[name="city"]').setAttribute('readonly', 'true');
+                document.querySelector('input[name="postal_code"]').setAttribute('readonly', 'true');
+            }
         }
 
 

@@ -9,22 +9,48 @@ header('Content-Type: application/json');
 // Connect to database
 require_once 'db_connect.php';
 
-// Fetch products from the database
-$query = "SELECT id, name, description, price, image_url FROM products";
-$result = $conn->query($query);
+// Build the query based on filters
+$query = "SELECT id, name, description, price, image_url FROM products WHERE 1=1";
+$params = [];
 
-if (!$result) {
-    $errorInfo = $conn->errorInfo();
-    error_log("Failed to fetch products: " . $errorInfo[2]);
-    echo json_encode(['success' => false, 'error' => 'Failed to fetch products: ' . $errorInfo[2]]);
-    exit;
+if (isset($_GET['gender']) && $_GET['gender'] !== 'all') {
+    $query .= " AND gender = ?";
+    $params[] = $_GET['gender'];
 }
 
-$products = [];
-while ($row = $result->fetch(PDO::FETCH_ASSOC)) { // replaced fetch_assoc() with fetch(PDO::FETCH_ASSOC)
-    $products[] = $row;
+if (isset($_GET['type']) && $_GET['type'] !== 'all') {
+    $query .= " AND type = ?";
+    $params[] = $_GET['type'];
 }
 
-// Output the products array directly
+// Add sorting
+if (isset($_GET['sort'])) {
+    switch($_GET['sort']) {
+        case 'price_asc':
+            $query .= " ORDER BY price ASC";
+            break;
+        case 'price_desc':
+            $query .= " ORDER BY price DESC";
+            break;
+        case 'name_asc':
+            $query .= " ORDER BY name ASC";
+            break;
+        case 'name_desc':
+            $query .= " ORDER BY name DESC";
+            break;
+        default:
+            $query .= " ORDER BY id ASC"; // Default sorting
+    }
+} else {
+    $query .= " ORDER BY id ASC"; // Default sorting when no sort parameter
+}
+
+// Prepare and execute the query
+$stmt = $conn->prepare($query);
+$stmt->execute($params);
+
+$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Output the products array
 echo json_encode($products);
 ?>

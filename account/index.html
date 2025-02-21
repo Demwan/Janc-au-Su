@@ -24,6 +24,9 @@
 
         .page-header {
             margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .card {
@@ -138,6 +141,18 @@
   width: 5vh;
   height: 5vh;
 }
+
+.logout-button {
+    background-color: #000000;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+}
+
         
     </style>
     <script>
@@ -241,8 +256,11 @@
       </header>
     <div class="content-wrapper">
         <div class="page-header">
-            <h1>My Orders</h1>
-            <p>View and track your recent orders</p>
+            <div>
+                <h1>My Orders</h1>
+                <p>View and track your recent orders</p>
+            </div>
+            <a href="/logout.html" class="logout-button">Logout</a>
         </div>
 
         <div class="card" id="card">

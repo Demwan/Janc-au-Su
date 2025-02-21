@@ -1,5 +1,9 @@
 <?php
 require_once __DIR__ . '/../db_connect.php';
+require_once __DIR__ . '/../auth_helper.php';
+
+header('Content-Type: application/json');
+requireStaffAccess($conn);
 
 if (!isset($_GET['order_id'])) {
     http_response_code(400);
@@ -42,7 +46,6 @@ foreach($order_items as &$item) {
 }
 unset($item);
 
-header('Content-Type: application/json');
 echo json_encode([
     "order" => $order,
     "address" => $address,

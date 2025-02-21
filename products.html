@@ -3,99 +3,263 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Italiana" rel="stylesheet"/>
     <title>Product Page</title>
     <style>
+        html {
+            width: 100%;
+            margin: 0px auto;
+        }
+        
         body {
+            margin: 0px auto;
             font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
         }
-        .product {
-            border: 1px solid #ddd;
-            padding: 15px;
-            margin: 10px;
+        
+        header {
+  background-color: #122620;
+  text-align: center;
+  width: 100%;
+  height: 5.5rem;
+}
+
+#flexbox-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  height: 5.5rem;
+}
+
+.logo-navbar {
+  width: 100%;
+  height: 100%;
+}
+
+.navbar-left {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar-icons-L {
+  margin-left: 3vh;
+  width: 5vh;
+  height: 5vh;
+}
+.navbar-icons-R {
+  margin-right: 3vh;
+  width: 5vh;
+  height: 5vh;
+}
+        
+        .searchbar-body {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+        
+        .search {
+            display: flex;
+            align-items: center;
             text-align: center;
-            width: 250px;
-            display: inline-block;
-            vertical-align: top;
         }
+        
+        .search__input {
+            background-color: #f4f2f2;
+            border: none;
+            color: #646464;
+            padding: 0.7rem 1rem;
+            border-radius: 30px;
+            width: 90%;
+            max-width: 500px;
+            transition: all ease-in-out 0.5s;
+            margin-right: -2rem;
+        }
+        
+        .search__button {
+            border: none;
+            background-color: #f4f2f2;
+            cursor: pointer;
+        }
+
+        .product-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .filter-section {
+            width: 100%;
+            text-align: center;
+            margin: 2rem 0;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .filter-section select {
+            appearance: none;
+            background: transparent;
+            padding: 0.5rem 2rem 0.5rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 0;
+            font-size: 0.9rem;
+            color: #000;
+            cursor: pointer;
+            min-width: 150px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            max-width: 1600px;
+        }
+
+        .product {
+            text-align: center;
+            background: #fff;
+            padding: 0;
+            border-radius: 0;
+            box-shadow: none;
+            width: 100%;
+            height: auto;
+            transition: opacity 0.3s ease;
+        }
+
+        .product:hover {
+            transform: none;
+            box-shadow: none;
+            opacity: 0.8;
+        }
+
         .product img {
-            max-width: 100%;
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 0;
         }
+
         .product h3 {
-            margin: 10px 0;
+            margin: 1rem 0 0.5rem 0;
+            font-weight: normal;
+            font-size: 1rem;
+            color: #000;
         }
+
         .product p {
             margin: 5px 0;
-        }
-        .product span {
-            font-weight: bold;
+            font-weight: normal;
+            font-size: 14px;
             color: #333;
         }
-        .product button {
-            padding: 10px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            cursor: pointer;
-            margin-top: 10px;
+
+        .product span {
+            font-weight: normal;
+            color: #000;
+            font-size: 0.9rem;
         }
-        .product button:hover {
-            background-color: #218838;
+
+        /* Responsive adjustments */
+        @media (max-width: 1200px) {
+            .product-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-<html>
-<head>
-    <link rel="stylesheet" href="style.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-<nav>
-      <div class="logo">
-        <img src="i/logo.png" alt="logo" />
+  <header>
+    <div id="flexbox-header">
+      <div class="navbar-left">
+        <a href="/index.html">
+          <img
+            class="navbar-icons-L"
+            src="/i/home.png"
+          />
+        </a>
+        <a href="/products.html">
+        <img class="navbar-icons-L"
+        src="/i/search.png">
+        </a>
       </div>
-      <ul>
-        <li>
-          <a href="index.htlm">Home</a>
-        </li>
-        <li>
-          <a href="products.html">Products</a>
-        </li>
-        <li>
-          <a href="account.html">Account</a>
-        </li>
-        <li>
-          <a href="cart.html">Cart</a>
-        </li>
-      </ul>
-      <div class="hamburger">
-        <span class="line"></span>
-        <span class="line"></span>
-        <span class="line"></span>
+      <div class="navbar-center">
+        <a href="/index.html">
+          <img
+            class="logo-navbar"
+            src="/i/logo-nobackground.png"
+          />
+        </a>
       </div>
-    </nav>
-    <div class="menubar">
-      <ul>
-        <li>
-          <a href="index.htlm">Home</a>
-        </li>
-        <li>
-          <a href="products.html">Products</a>
-        </li>
-        <li>
-          <a href="account.html">Account</a>
-        </li>
-        <li>
-          <a href="cart.html">Cart</a>
-        </li>
-      </ul>
+      <div class="navbar-right">
+        <a href="/cart.html">
+          <img
+            class="navbar-icons-R"
+            src="/i/shopping_bag.png"
+          />
+        </a>
+        <a href="/account/">
+        <img
+          class="navbar-icons-R"
+          src="/i/account.png"
+        />
+        </a>
+      </div>
     </div>
+  </header>
 
-</body>
-</html>
-    <h1>Our Products</h1>
-    <div id="products-container">
-        <!-- Products will be loaded here -->
+    <div class="down">
+
+        <div class="product-page">
+            <div class="filter-section">
+              <select id="gender-filter" onchange="updateFilters()">
+                <option value="all">Alle Geslachten</option>
+                <option value="men">Mannen</option>
+                <option value="women">Vrouwen</option>
+                <option value="unisex">Unisex</option>
+            </select>
+
+                <select id="category-filter" onchange="updateFilters()">
+                    <option value="all">Alle Producten</option>
+                    <option value="tops">Tops</option>
+                    <option value="pants">Pants</option>
+                    <option value="watches">Watches</option>
+                    <option value="shoes">Shoes</option>
+                </select>
+
+                <select id="sort-filter" onchange="updateFilters()">
+                    <option value="default">Sorteer op</option>
+                    <option value="price_asc">Prijs: Laag naar Hoog</option>
+                    <option value="price_desc">Prijs: Hoog naar Laag</option>
+                    <option value="name_asc">Naam: A-Z</option>
+                    <option value="name_desc">Naam: Z-A</option>
+                </select>
+            </div>
+
+            <div id="products-container" class="product-grid">
+                <!-- Products will be loaded here -->
+            </div>
+        </div>
     </div>
 
     <script>
@@ -109,10 +273,9 @@
                     productDiv.classList.add('product');
                     productDiv.innerHTML = `
                         <div onclick="location.href='product.html?id=${product.id}';" style="cursor: pointer;">
-                        <img src="${product.image_url}" alt="${product.name}">
-                        <h3>${product.name}</h3>
-                        <p>${product.description}</p>
-                        <span>$${product.price}</span>
+                            <img src="${product.image_url}" alt="${product.name}">
+                            <h3>${product.name}</h3>
+                            <span>${product.price} EUR</span>
                         </div>
                     `;
                     container.appendChild(productDiv);
@@ -120,7 +283,63 @@
             })
             .catch(error => console.error('Error fetching product data:', error));
 
+        function getUrlParameters() {
+            const params = new URLSearchParams(window.location.search);
+            
+            document.getElementById('gender-filter').value = params.get('gender') || 'all';
+            document.getElementById('category-filter').value = params.get('type') || 'all';
+            document.getElementById('sort-filter').value = params.get('sort') || 'default';
+        }
 
+        function updateFilters() {
+            const gender = document.getElementById('gender-filter').value;
+            const type = document.getElementById('category-filter').value;
+            const sort = document.getElementById('sort-filter').value;
+            
+            const params = new URLSearchParams();
+            if (gender !== 'all') params.set('gender', gender);
+            if (type !== 'all') params.set('type', type);
+            if (sort !== 'default') params.set('sort', sort);
+            
+            const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
+            window.history.pushState({}, '', newUrl);
+            
+            fetchProducts(gender, type, sort);
+        }
+
+        function fetchProducts(gender, type, sort) {
+            const params = new URLSearchParams();
+            if (gender !== 'all') params.append('gender', gender);
+            if (type !== 'all') params.append('type', type);
+            if (sort !== 'default') params.append('sort', sort);
+            
+            fetch(`fetch_products.php?${params.toString()}`)
+                .then(response => response.json())
+                .then(products => {
+                    const container = document.getElementById('products-container');
+                    container.innerHTML = '';
+                    
+                    products.forEach(product => {
+                        const productDiv = document.createElement('div');
+                        productDiv.classList.add('product');
+                        productDiv.innerHTML = `
+                            <div onclick="location.href='product.html?id=${product.id}';" style="cursor: pointer;">
+                                <img src="${product.image_url}" alt="${product.name}">
+                                <h3>${product.name}</h3>
+                                <span>${product.price} EUR</span>
+                            </div>
+                        `;
+                        container.appendChild(productDiv);
+                    });
+                })
+                .catch(error => console.error('Error fetching product data:', error));
+        }
+
+        // Load filters from URL when page loads
+        window.addEventListener('load', () => {
+            getUrlParameters();
+            updateFilters();
+        });
     </script>
 </body>
 </html>

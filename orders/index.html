@@ -119,6 +119,14 @@
       gap: 1rem;
     }
 
+    .chart-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 25px;
+    }
+
+
     .chart-card {
       background: white;
       border: 1px solid #e2e8f0;
@@ -252,6 +260,11 @@
       border: none;
       cursor: pointer;
     }
+
+    .main {
+      margin: 0 50px;
+      margin-bottom: 50px;
+    }
   </style>
 </head>
 
@@ -262,7 +275,12 @@
 
     </div>
 
-
+    <div class="tab-list"></div>
+      <button class="tab active">Orders</button>
+      <button class="tab">Team</button>
+      <button class="tab">Products</button>
+    </div>
+    <div class="main">
     <div class="stats-grid">
       <div class="stat-card">
         <div class="stat-header">
@@ -326,7 +344,6 @@
                 </tr>
               </thead>
               <tbody id="ordersProcessBody">
-                <p>No orders waiting</p>
               </tbody>
             </table>
           </div>
@@ -353,11 +370,75 @@
         </div>
       </div>
     </div>
+    <div class="chart-grid-2">
+      <div class="chart-card">
+        <h3 class="chart-title">All Orders</h3>
+        <div>
+          <div class="container">
+            <div class="search-bar">
+              <input type="text" placeholder="Filter emails..." id="searchInputAllOrders">
+            </div>
+            <table id="allOrdersTable">
+              <thead>
+                <tr>
+                  <th>Order Date</th>
+                  <th>Email</th>
+                  <th>Number of items</th>
+                  <th class="text-right">Amount</th>
+                </tr>
+              </thead>
+              <tbody id="allOrdersBody">
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <h3 class="chart-title">Orders waiting for shipment</h3>
+        <div class="sales-list">
+          <div class="container">
+            <table>
+              <thead>
+                <tr>
+                  <th><input type="checkbox" id="selectAllShipments"></th>
+                  <th>Order ID</th>
+                  <th>Country</th>
+                  <th>Email</th>
+                  <th class="text-right">Amount</th>
+                </tr>
+              </thead>
+              <tbody id="awaitingShipmentBody">
+                <!-- ...table rows will be injected here... -->
+              </tbody>
+            </table>
+            <div style="margin-top: 15px; text-align: right;">
+              <button id="markShippedBtn" class="download-btn">Mark Selected as Shipped</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
   </div>
+
   <script>
     document.getElementById('searchInput').addEventListener('keyup', function() {
       var filter = this.value.toUpperCase();
       var table = document.getElementById('ordersTable');
+      var rows = table.getElementsByTagName('tr');
+      for (var i = 1; i < rows.length; i++) {
+        var emailCell = rows[i].getElementsByTagName('td')[1];
+        if (emailCell) {
+          var emailText = emailCell.textContent || emailCell.innerText;
+          rows[i].style.display = emailText.toUpperCase().indexOf(filter) > -1 ? '' : 'none';
+        }
+      }
+    });
+
+    document.getElementById('searchInputAllOrders').addEventListener('keyup', function() {
+      var filter = this.value.toUpperCase();
+      var table = document.getElementById('allOrdersTable');
       var rows = table.getElementsByTagName('tr');
       for (var i = 1; i < rows.length; i++) {
         var emailCell = rows[i].getElementsByTagName('td')[1];
@@ -417,6 +498,95 @@
         document.getElementById('ordersAwaitingShipment').textContent = stats.orders_awaiting_shipment;
       })
       .catch(error => console.error('Error fetching dashboard stats:', error));
+
+    // Fetch and populate all orders
+    fetch('fetch_all_orders.php')
+        .then(response => response.json())
+        .then(data => {
+            const tbody = document.getElementById('allOrdersBody');
+            data.forEach(order => {
+                const tr = document.createElement('tr');
+                tr.style.cursor = 'pointer';
+                tr.onclick = () => {
+                    window.location.href = 'order.html?order_id=' + order.order_id;
+                };
+                tr.innerHTML = `
+                    <td>${order.order_date}</td>
+                    <td>${order.email}</td>
+                    <td>${order.number_of_items}</td>
+                    <td class="text-right">$${Number(order.total_amount).toFixed(2)}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        })
+        .catch(error => console.error('Error fetching all orders:', error));
+
+    // Fetch and populate awaiting shipment orders
+    function loadAwaitingShipment() {
+        fetch('fetch_awaiting_shipment.php')
+            .then(response => response.json())
+            .then(data => {
+                const tbody = document.getElementById('awaitingShipmentBody');
+                tbody.innerHTML = '';
+                data.forEach(order => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td><input type="checkbox" class="shipment-checkbox" value="${order.order_id}"></td>
+                        <td>${order.order_id}</td>
+                        <td>${order.country}</td>
+                        <td>${order.email}</td>
+                        <td class="text-right">$${Number(order.total_amount).toFixed(2)}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            })
+            .catch(error => console.error('Error fetching awaiting shipment orders:', error));
+    }
+
+    loadAwaitingShipment();
+
+    // Handle "Select All" checkbox
+    document.getElementById('selectAllShipments').addEventListener('change', function() {
+        const checkboxes = document.getElementsByClassName('shipment-checkbox');
+        Array.from(checkboxes).forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+    });
+
+    // Handle "Mark as Shipped" button
+    document.getElementById('markShippedBtn').addEventListener('click', function() {
+        const checkboxes = document.getElementsByClassName('shipment-checkbox');
+        const selectedOrders = Array.from(checkboxes)
+            .filter(cb => cb.checked)
+            .map(cb => parseInt(cb.value));
+
+        if (selectedOrders.length === 0) {
+            alert('Please select at least one order to mark as shipped');
+            return;
+        }
+
+        fetch('mark_as_shipped.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(selectedOrders)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(data.message);
+                loadAwaitingShipment(); // Reload the awaiting shipment table
+                document.getElementById('selectAllShipments').checked = false;
+            } else {
+                alert('Error: ' + (data.error || 'Unknown error occurred'));
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while updating orders');
+        });
+    });
   </script>
 </body>
 

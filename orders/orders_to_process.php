@@ -1,5 +1,9 @@
 <?php
 include __DIR__ . '/../db_connect.php';
+include __DIR__ . '/../auth_helper.php';
+
+header('Content-Type: application/json');
+requireStaffAccess($conn);
 
 // Query updated to include order_id
 $query = "SELECT o.order_id, o.order_date, u.email, SUM(oi.quantity) AS number_of_items, o.total_amount 
@@ -12,6 +16,5 @@ $stmt = $conn->prepare($query);
 $stmt->execute();
 $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-header('Content-Type: application/json');
 echo json_encode($orders);
 ?>

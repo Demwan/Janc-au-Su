@@ -1,91 +1,379 @@
 <!DOCTYPE html>
-<html>
-<head>
-<style>
-.preview {
-  border: 1px solid #e5e7eb;
-  background-color: #ffffff;
-  border-bottom-left-radius: 0.5rem;
-  border-bottom-right-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
-  min-height: 6rem;
-  min-width: 18rem;
-  max-width: 56rem;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  overflow-x: hidden;
-  background-position: top;
-  background-size: cover;
-  padding: 1rem;
-}
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Italiana"
+      rel="stylesheet"
+    />
+    <title>Merino Wool Shop</title>
+    <style>html {
+      width: 100%;
+      margin: 0px auto;
+    }
+    
+    body {
+      margin: 0px auto;
+      font-family: Arial, sans-serif;
+      background-color: #f8f8f8;
+    }
+    
+    header {
+      background-color: #122620;
+      text-align: center;
+      width: 100%;
+      height: 5.5rem;
+      overflow: hidden; /* Voorkomt dat er iets uitsteekt */
+      max-width: 100vw; /* Zorgt ervoor dat de navbar nooit breder is dan het scherm */
+    }
+    
+    .navbar-center {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+    
+      justify-content: center;
+      align-items: center;
+      pointer-events: none; /* Zorgt ervoor dat clicks door de container gaan */
+    }
+    
+    .navbar-center a {
+      pointer-events: auto; /* Maakt de logo-link zelf klikbaar */
+    }
+    
+    /* Zorg dat de header een relatieve positie heeft voor absolute positionering */
+    #flexbox-header {
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 100%;
+      height: 5.5rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+    
+    /* Zorg dat de zijkanten een hogere z-index hebben */
+    .navbar-left,
+    .navbar-right {
+      z-index: 1;
+    }
+    
+    .logo-navbar {
+      width: auto;
+      height: 100%;
+    }
+    
+    .navbar-left,
+    .navbar-right {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .navbar-icons-L,
+    .navbar-icons-R {
+      padding: 1rem;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+    }
+    
+    .body-search {
+      margin-top: 7rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+    
+    .searchbar-body {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+    
+    .search {
+      display: flex;
+      align-items: center;
+      text-align: center;
+    }
+    
+    .search__input {
+      background-color: #f4f2f2;
+      border: none;
+      color: #646464;
+      padding: 0.7rem 1rem;
+      border-radius: 30px;
+      width: 90%;
+      max-width: 500px;
+      transition: all ease-in-out 0.5s;
+      margin-right: -2rem;
+    }
+    
+    .search__button {
+      border: none;
+      background-color: #f4f2f2;
+      cursor: pointer;
+    }
+    
+    .product-page {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      padding: 20px;
+    }
+    
+    /* Stijlvolle filter-selecties met behoud van oorspronkelijk font */
+    .filter-section {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+    
+    .filter-section select {
+      appearance: none;
+      background: #fff
+        url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z' fill='%23122620'/%3E%3C/svg%3E")
+        no-repeat right 10px center;
+      padding: 12px 40px 12px 16px;
+      border-radius: 8px;
+      border: 1px solid #e0e0e0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      color: #122620;
+      font-size: 14px;
+      font-weight: 500;
+      min-width: 200px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      outline: none;
+      /* Ik verwijder de font-family regel om je oorspronkelijke font te behouden */
+    }
+    
+    .filter-section select:hover {
+      border-color: #122620;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .filter-section select:focus {
+      border-color: #122620;
+      box-shadow: 0 0 0 2px rgba(18, 38, 32, 0.2);
+    }
+    
+    /* Styling voor de dropdown-opties zonder wijziging van het font */
+    .filter-section select option {
+      background: #fff;
+      color: #122620;
+      padding: 10px;
+      /* Geen font-family specificatie hier */
+    }
+    
+    .product-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start; /* Zorgt ervoor dat producten van links naar rechts vullen */
+      gap: 20px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+    
+    /* Hover effect voor producten */
+    .product-item {
+      text-align: center;
+      background: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 250px;
+      height: auto;
+      flex: 1 1 calc(25% - 20px);
+      max-width: 250px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease; /* Soepele overgang toevoegen */
+    }
+    
+    /* Effect bij hover */
+    .product-item:hover {
+      transform: scale(1.05); /* 5% groter bij hover */
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Sterkere schaduw voor diepte-effect */
+      z-index: 2; /* Zorgt ervoor dat het item boven andere items verschijnt bij overlap */
+    }
+    
+    .product-item img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      max-height: 300px; /* Beperk de hoogte voor een nette uitstraling */
+    }
+    
+    .product-item p {
+      margin: 5px 0;
+      font-weight: normal;
+      font-size: 14px;
+      color: #333;
+    }
+    
+    .product-item p:first-of-type {
+      font-weight: bold;
+      font-size: 16px;
+    }
+    
+    .product-item a {
+      display: block;
+      font-size: 14px;
+      color: #000;
+      text-decoration: none;
+      margin-top: 5px;
+    }
+    </style>
+    <script>
+      function filterProducts() {
+        let category = document.getElementById("category-filter").value;
+        let priceRange = document.getElementById("price-filter").value;
+        let products = document.querySelectorAll(".product-item");
 
-.steps {
-  list-style: none;
-  display: flex;
-  padding: 0;
-  margin: 0;
-  counter-reset: step;
-}
+        products.forEach((product) => {
+          let productName = product.dataset.category;
+          let productPrice = parseFloat(product.dataset.price);
 
-.step {
-  position: relative;
-  padding: 0 2rem;
-  color: #9ca3af;
-}
+          let matchesCategory = category === "all" || productName === category;
+          let matchesPrice =
+            priceRange === "all" ||
+            (priceRange === "low" && productPrice < 50000) ||
+            (priceRange === "mid" &&
+              productPrice >= 50000 &&
+              productPrice < 200000) ||
+            (priceRange === "high" && productPrice >= 200000);
 
-.step::before {
-  content: counter(step);
-  counter-increment: step;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  background-color: #e5e7eb;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 0.5rem auto;
-}
+          if (matchesCategory && matchesPrice) {
+            product.style.display = "block";
+          } else {
+            product.style.display = "none";
+          }
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <header>
+      <div id="flexbox-header">
+        <div class="navbar-left">
+          <a href="index.html">
+            <img
+              class="navbar-icons-L"
+              src="icons/home_24dp_FFFFFF_FILL0_wght300_GRAD0_opsz24 (1).png"
+            />
+          </a>
+          <a href="Product3-page.html">
+          <img class="navbar-icons-L"
+          src="icons/search_24dp_FFFFFF_FILL0_wght300_GRAD0_opsz24.png"">
+        </div>
+        <div class="navbar-center">
+          <a href="index.html">
+            <img
+              class="logo-navbar"
+              src="icons/Janc au Sú zonder achtergrond (1) (1).png"
+            />
+          </a>
+        </div>
+        <div class="navbar-right">
+          <a href="cart.html"
+            ><img
+              class="navbar-icons-R"
+              src="icons/shopping_bag_24dp_FFFFFF_FILL0_wght300_GRAD0_opsz24.png"
+            />
+          </a>
+          <img
+            class="navbar-icons-R"
+            src="icons/account_circle_24dp_FFFFFF_FILL0_wght300_GRAD0_opsz24.png"
+          />
+        </div>
+      </div>
+    </header>
 
-.step::after {
-  content: '';
-  position: absolute;
-  top: 1rem;
-  left: calc(50% + 1rem);
-  width: 100%;
-  height: 2px;
-  background-color: #e5e7eb;
-  transform: translateY(-50%);
-}
+    <div class="down">
+      <div class="body-search">
+        <div class="searchbar-body">
+          <form class="search">
+            <input type="text" class="search__input" placeholder="Zoeken..." />
+            <button class="search__button">🔍</button>
+          </form>
+        </div>
+      </div>
 
-.step:last-child::after {
-  display: none;
-}
+      <div class="product-page">
+        <div class="filter-section">
+          <select id="category-filter" onchange="filterProducts()">
+            <option value="all">Alle categorieën</option>
+            <option value="shirt">Shirts</option>
+            <option value="broek">Broeken</option>
+            <option value="jas">Jassen</option>
+          </select>
 
-.step-primary {
-  color: #2563eb;
-}
+          <select id="price-filter" onchange="filterProducts()">
+            <option value="all">Alle prijzen</option>
+            <option value="low">Minder dan €50.000</option>
+            <option value="mid">€50.000 - €200.000</option>
+            <option value="high">Meer dan €200.000</option>
+          </select>
+        </div>
 
-.step-primary::before {
-  background-color: #2563eb;
-  color: white;
-}
-
-.step-primary::after {
-  background-color: #2563eb;
-}
-</style>
-</head>
-<body>
-<div class="preview">
-  <ul class="steps">
-    <li class="step step-primary">Register</li>
-    <li class="step step-primary">Choose plan</li>
-    <li class="step">Purchase</li>
-    <li class="step">Receive Product</li>
-  </ul>
-</div>
-</body>
+        <div class="product-grid">
+          <div class="product-item" data-category="shirt" data-price="40000">
+            <img src="imaGES/place.jpg" alt="Blauw Shirt" />
+            <p>Blauw Shirt</p>
+            <p>€40.000</p>
+          </div>
+          <div class="product-item" data-category="broek" data-price="60000">
+            <img src="imaGES/place.jpg" alt="Zwarte Broek" />
+            <p>Zwarte Broek</p>
+            <p>€60.000</p>
+          </div>
+          <div class="product-item" data-category="jas" data-price="150000">
+            <img src="imaGES/place.jpg" alt="Winterjas" />
+            <p>Winterjas</p>
+            <p>€150.000</p>
+          </div>
+          <div class="product-item" data-category="shirt" data-price="55000">
+            <img src="imaGES/place.jpg" alt="Wit Shirt" />
+            <p>Wit Shirt</p>
+            <p>€55.000</p>
+          </div>
+          <div class="product-item" data-category="broek" data-price="70000">
+            <img src="imaGES/place.jpg" alt="Blauwe Jeans" />
+            <p>Blauwe Jeans</p>
+            <p>€70.000</p>
+          </div>
+          <div class="product-item" data-category="jas" data-price="220000">
+            <img src="imaGES/place.jpg" alt="Leren Jas" />
+            <p>Leren Jas</p>
+            <p>€220.000</p>
+          </div>
+          <div class="product-item" data-category="shirt" data-price="30000">
+            <img src="imaGES/place.jpg" alt="Groen Shirt" />
+            <p>Groen Shirt</p>
+            <p>€30.000</p>
+          </div>
+          <div class="product-item" data-category="broek" data-price="80000">
+            <img src="imaGES/place.jpg" alt="Kaki Broek" />
+            <p>Kaki Broek</p>
+            <p>€80.000</p>
+          </div>
+          <div class="product-item" data-category="jas" data-price="250000">
+            <img src="imaGES/place.jpg" alt="Regenjas" />
+            <p>Regenjas</p>
+            <p>€250.000</p>
+          </div>
+          <!-- 16 extra producten toegevoegd -->
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

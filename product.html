@@ -2,135 +2,79 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="product-page.css">
+    <link href='https://fonts.googleapis.com/css?family=Italiana' rel='stylesheet'>
     <title>Product Page</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        .product {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-        .product img {
-            max-width: 300px;
-            height: auto;
-        }
-        .product-details {
-            max-width: 500px;
-        }
-        .product button {
-            padding: 10px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        .product button:hover {
-            background-color: #218838;
-        }
-        .error {
-            color: red;
-        }
-        .image-gallery {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        .image-gallery img {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            cursor: pointer;
-            border: 2px solid transparent;
-        }
-        .image-gallery img:hover {
-            border-color: #28a745;
-        }
-        .main-image {
-            max-width: 300px;
-            height: auto;
-            margin-bottom: 10px;
-        }
-    </style>
-    <link rel="stylesheet" type="text/css" target="_blank" href="style.css" />
-
 </head>
 <body>
-    <nav>
-      <div class="logo">
-        <img src="i/logo.png" alt="logo" />
-      </div>
-      <ul>
-        <li>
-          <a href="index.htlm">Home</a>
-        </li>
-        <li>
-          <a href="products.html">Products</a>
-        </li>
-        <li>
-          <a href="account.html">Account</a>
-        </li>
-        <li>
-          <a href="cart.html">Cart</a>
-        </li>
-      </ul>
-      <div class="hamburger">
-        <span class="line"></span>
-        <span class="line"></span>
-        <span class="line"></span>
-      </div>
-    </nav>
-    <div class="menubar">
-      <ul>
-        <li>
-          <a href="index.htlm">Home</a>
-        </li>
-        <li>
-          <a href="products.html">Products</a>
-        </li>
-        <li>
-          <a href="account.html">Account</a>
-        </li>
-        <li>
-          <a href="cart.html">Cart</a>
-        </li>
-      </ul>
-    </div>
-    <button onclick="history.back()">Go Back</button>
-    <h1>Product Details</h1>
-    <div id="product-container">
-        <!-- Product Section -->
-        <div id="product" class="product" style="display: none;">
-            <div class="product-images">
-                <img id="product-image" class="main-image" src="" alt="Product Image">
-                <div id="secondary-images" class="image-gallery">
+    <header>
+        <div id="flexbox-header">
+          <div class="navbar-left">
+            <a href="/index.html">
+              <img class="navbar-icons-L" src="/i/home.png" alt="Home">
+            </a>
+            <a href="/products.html">
+              <img class="navbar-icons-L" src="/i/search.png" alt="Search">
+            </a>
+          </div>
+          <div class="navbar-center">
+            <a href="/index.html">
+              <img class="logo-navbar" src="/i/logo-nobackground.png" alt="Logo">
+            </a>
+          </div>
+          <div class="navbar-right">
+            <a href="/cart.html">
+              <img class="navbar-icons-R" src="/i/shopping_bag.png" alt="Cart">
+            </a>
+            <a href="/account">
+              <img class="navbar-icons-R" src="/i/account.png" alt="Account">
+            </a>
+          </div>
+        </div>
+
+    <div id="error-message" class="error" style="display: none;"></div>
+
+    <div class="product-display" id="product" style="display: none;">
+        <div class="product-foto" id="product-images">
+            <div id="product-images-container">
+                <img id="product-image" class="product-image" src="" alt="Product Image">
+                <div id="secondary-images" class="vertical-images">
                     <!-- Secondary images will be inserted here -->
                 </div>
             </div>
-            <div class="product-details">
-                <h2 id="product-name"></h2>
-                <p id="product-description"></p>
+        </div>
+
+        <div class="product-information">
+            <div class="merino-wool-zip-up">
+                <h1 id="product-name"></h1>
+            </div>
+            <div class="choices">
+                <div><hr class="size-line"></div>
+                <div class="size">
+                    <h2 class="size-text">Size</h2>
+                    <select id="size-select" class="transparant-button">
+                        <!-- Size options will be inserted here -->
+                    </select>
+                </div>
+                <div><hr class="size-line"></div>
+            </div>
+
+            <div>
+                <p class="add-to-bag-text">
+                    <button id="add-to-cart-button" class="add-to-bag">Add to shopping bag</button>
+                </p>
+            </div>
+
+            <div class="description">
                 <p><strong>Price:</strong> €<span id="product-price"></span></p>
-
-                <!-- Size Selection Dropdown -->
-                <label for="size-select">Select Size:</label>
-                <select id="size-select">
-                </select>
-
-                <!-- Add to Cart Button -->
-                <button id="add-to-cart-button">Add to Cart</button>
+                <p id="product-description"></p>
             </div>
         </div>
-        <!-- Error Message -->
-        <p id="error-message" class="error" style="display: none;"></p>
     </div>
 
-<script>
+    <script>
     // Ensure the DOM is fully loaded before running the script
     document.addEventListener('DOMContentLoaded', function() {
         const urlParams = new URLSearchParams(window.location.search);
@@ -162,20 +106,14 @@
                     document.getElementById('product-description').textContent = product.description;
                     document.getElementById('product-price').textContent = parseFloat(product.price).toFixed(2);
 
-                    // Add main image to gallery
+                    // Add secondary images
                     const galleryContainer = document.getElementById('secondary-images');
-                    const mainImageThumb = document.createElement('img');
-                    mainImageThumb.src = product.image_url;
-                    mainImageThumb.onclick = () => document.getElementById('product-image').src = product.image_url;
-                    galleryContainer.appendChild(mainImageThumb);
-
-                    // Add secondary images to gallery
                     if (product.secondary_images && product.secondary_images.length > 0) {
                         product.secondary_images.forEach(imgUrl => {
-                            if (imgUrl.trim()) {  // Only add if URL is not empty
+                            if (imgUrl.trim()) {
                                 const img = document.createElement('img');
                                 img.src = imgUrl.trim();
-                                img.onclick = () => document.getElementById('product-image').src = imgUrl.trim();
+                                img.className = 'product-image';
                                 galleryContainer.appendChild(img);
                             }
                         });

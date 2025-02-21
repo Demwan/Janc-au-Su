@@ -232,8 +232,8 @@
                 .then(response => response.json()) // Converteer het antwoord naar JSON
                 .then(data => {
                     if (data.loggedIn) {
-                        // Als gebruiker ingelogd is, redirect naar dashboard
-                        window.location.href = 'dashboard';
+                        // Als gebruiker ingelogd is, redirect naar account pagina
+                        window.location.href = 'account';
                     }
                 })
                 .catch(error => {

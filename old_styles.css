@@ -1,4 +1,4 @@
-/* General Reset */
+/* General Reset Hallo */
 * {
   margin: 0;
   padding: 0;
@@ -12,58 +12,7 @@ body {
   color: #000;
 }
 
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 30px 100px; /* Extra padding voor ruimte */
-  position: absolute;
-  width: 100%;
-  z-index: 100;
-  background: transparent;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.5); /* Streep onder navbar */
-}
 
-.nav-left,
-.nav-right {
-  display: flex;
-  gap: 50px; /* Meer afstand tussen items */
-}
-
-.nav-left a,
-.nav-right a {
-  text-decoration: none;
-  color: #f5d9a0;
-  font-size: 22px; /* Grotere tekst */
-  font-family: "Raleway", sans-serif;
-  transition: color 0.3s ease;
-}
-
-.nav-left a:hover,
-.nav-right a:hover {
-  color: #ffffff;
-}
-
-.nav-center {
-  text-align: center;
-}
-
-.nav-center .logo {
-  font-family: "Playfair Display", serif;
-  font-size: 36px; /* Groter logo */
-  font-weight: 700;
-  color: #f4b03d;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.nav-center .logo-subtitle {
-  display: block;
-  font-size: 14px;
-  color: #f5d9a0;
-  font-family: "Raleway", sans-serif;
-  margin-top: -5px;
-}
 
 .hero {
   position: relative;
@@ -359,3 +308,4 @@ footer {
   font-weight: bold;
   margin-bottom: 20px;
 }
+

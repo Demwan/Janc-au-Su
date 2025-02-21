@@ -20,6 +20,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("Passwords do not match.");
     }
 
+    // Check if email already exists
+    $checkEmail = "SELECT COUNT(*) FROM users WHERE email = :email";
+    $checkStmt = $pdo->prepare($checkEmail);
+    $checkStmt->execute([':email' => $email]);
+    
+    if ($checkStmt->fetchColumn() > 0) {
+        die("This email address is already registered. Please use a different email or try logging in.");
+    }
+
     // Hash the password
     $password_hash = password_hash($password, PASSWORD_BCRYPT);
 
@@ -37,11 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
         echo "Registration successful!";
     } catch (PDOException $e) {
-        if ($e->getCode() == 23000) { // Duplicate entry error
-            die("The email is already registered.");
-        } else {
-            die("An error occurred: " . $e->getMessage());
-        }
+        die("An error occurred: " . $e->getMessage());
     }
 } else {
     echo "Invalid request.";

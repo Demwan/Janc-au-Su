@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             setcookie('cart', '', time() - 3600, '/');
 
             // Check for custom redirect parameter using "r"
-            $redirect = (isset($_REQUEST['r']) && !empty($_REQUEST['r'])) ? $_REQUEST['r'] : 'dashboard.php';
+            $redirect = (isset($_REQUEST['r']) && !empty($_REQUEST['r'])) ? $_REQUEST['r'] : '/account';
             header("Location: $redirect");
             echo "Login successful! Redirecting...";
             exit();
