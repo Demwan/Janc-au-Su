@@ -4,6 +4,12 @@ require_once __DIR__ . '/../db_connect.php';
 
 header('Content-Type: application/json');
 
+if (!isset($_SESSION['user_id'])) {
+  echo("You are not logged in.");
+  http_response_code(401);  // Unauthorized
+  exit();
+  }
+
 $user_id = $_SESSION['user_id'];
 
 try {

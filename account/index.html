@@ -157,6 +157,19 @@
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Functie om inlogstatus te controleren
+                fetch('/check_login_status.php') // Vraag status op van de PHP-server
+                    .then(response => response.json()) // Converteer het antwoord naar JSON
+                    .then(data => {
+                        if (data.loggedIn == false) {
+                            // Als gebruiker ingelogd is, redirect naar dashboard
+                            window.location.href = '/login.html?r=/account';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error); // Log eventuele fouten
+                    });
+            
             fetch('/account/fetch_orders.php')
                 .then(response => response.json())
                 .then(data => {
@@ -168,9 +181,10 @@
                         document.getElementById('card').innerHTML = '<p>No orders found</p>';
                     }
 
+
+
                     const tbody = document.querySelector('.orders-table tbody');
                     tbody.innerHTML = ''; // Clear placeholder data
-
                     data.orders.forEach(order => {
                         const date = new Date(order.order_date).toLocaleDateString();
                         const total = parseFloat(order.total).toFixed(2);
