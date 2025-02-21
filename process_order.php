@@ -78,12 +78,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $clear_cart_stmt->execute([$user_id]);
 
     // Redirect to thank you page
-    header('Location: thank_you.php?order_id=' . $order_id);
+    header('Location: account/order.html?id=' . $order_id);
     exit();
 
 } else {
     echo "Invalid request method.";
 }
-
-$conn->close();
 ?>

@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':first_name' => $first_name,
             ':last_name' => $last_name
         ]);
-        echo "Registration successful!";
+        header("Location: login.html");
     } catch (PDOException $e) {
         die("An error occurred: " . $e->getMessage());
     }

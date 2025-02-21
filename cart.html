@@ -139,7 +139,7 @@
             cart = getCartFromCookies();
         }
 
-        if (cart.length === 0) {
+        if (!cart) {
             container.innerHTML = '<p style="text-align: center">Your cart is empty.</p>';
             subtotalElement.textContent = '€0.00';
             totalElement.textContent = '€0.00';

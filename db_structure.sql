@@ -37,7 +37,7 @@ CREATE TABLE `products` (
   `description` text NOT NULL,
   `price` decimal(10,2) NOT NULL,
   `image_url` varchar(255) NOT NULL,
-  `secondary_image_url` varchar(255) DEFAULT NULL,
+  `secondary_image_url` varchar(1000) DEFAULT NULL,
   `type` varchar(50) NOT NULL DEFAULT 'general',
   `gender` enum('men','women','unisex') NOT NULL DEFAULT 'unisex',
   `available_sizes` varchar(255) DEFAULT NULL,

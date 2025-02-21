@@ -172,6 +172,77 @@
   width: 5vh;
   height: 5vh;
 }
+.preview {
+  border: 1px solid #e5e7eb;
+  background-color: #ffffff;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  overflow-x: hidden;
+  background-position: top;
+  background-size: cover;
+  padding: 1rem;
+}
+
+.steps {
+  list-style: none;
+  display: flex;
+  padding: 0;
+  margin: 0;
+  counter-reset: step;
+}
+
+.step {
+  position: relative;
+  padding: 0 2rem;
+  color: #9ca3af;
+}
+
+.step::before {
+  content: counter(step);
+  counter-increment: step;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 0.5rem auto;
+}
+
+.step::after {
+  content: '';
+  position: absolute;
+  top: 1rem;
+  left: calc(50% + 1rem);
+  width: 100%;
+  height: 2px;
+  background-color: #e5e7eb;
+  transform: translateY(-50%);
+}
+
+.step:last-child::after {
+  display: none;
+}
+
+.step-primary {
+  color: #122620;
+}
+
+.step-primary::before {
+  background-color: #122620;
+  color: white;
+}
+
+.step-primary::after {
+  background-color: #122620;
+}
 
     </style>
     <script>
@@ -201,11 +272,24 @@
                         `Confirmed: ${new Date(data.order.order_date).toLocaleDateString()}`;
 
                     // Update status
-                    document.querySelector('.status-badge').textContent = 
-                        `Status: ${data.order.status}`;
+                    const statusSteps = ['pending', 'processing', 'shipped', 'completed'];
+                    const currentStatus = data.order.status.toLowerCase();
+                    const currentStepIndex = statusSteps.indexOf(currentStatus);
+
+                    document.querySelectorAll('.steps .step').forEach((step, index) => {
+                        if (index <= currentStepIndex) {
+                            step.classList.add('step-primary');
+                        } else {
+                            step.classList.remove('step-primary');
+                        }
+                    });
 
                     // Update address information
-                    document.querySelector('.address-box:first-child p').textContent = data.user.email;
+                    document.querySelector('.address-box:first-child').innerHTML = `
+                        <h3>Contact Information</h3>
+                        <p>${data.user.first_name} ${data.user.last_name}</p>
+                        <p>${data.user.email}</p>
+                    `;
                     
                     const addressHtml = `
                         <h3>Shipping Address</h3>
@@ -293,13 +377,13 @@
             </a>
           </div>
           <div class="navbar-right">
-            <a href="/i/cart.html">
+            <a href="/cart.html">
               <img
                 class="navbar-icons-R"
                 src="/i/shopping_bag.png"
               />
             </a>
-            <a href="account.html">
+            <a href="/account">
             <img
               class="navbar-icons-R"
               src="/i/account.png"
@@ -322,13 +406,14 @@
         <div class="main-container">
             <div class="left-column">
                 <div class="card">
-                    <h2>Delivery Status</h2>
-                    <div class="status-badge">
-                        Delivered on January 18, 2025
-                    </div>
-                    <div class="tracking-info">
-                        <p>Carrier: Express Delivery</p>
-                        <p>Tracking: ABC123456789</p>
+                    <h2>Order Status</h2>
+                    <div class="preview">
+                        <ul class="steps">
+                            <li class="step">Pending</li>
+                            <li class="step">Processing</li>
+                            <li class="step">Shipped</li>
+                            <li class="step">Completed</li>
+                        </ul>
                     </div>
                 </div>
 

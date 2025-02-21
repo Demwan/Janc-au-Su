@@ -20,11 +20,12 @@ $order_id = intval($_GET['id']);
 $user_id = $_SESSION['user_id'];
 
 try {
-    // Verify the order belongs to the user
+    // Verify the order belongs to the user and get user details
     $stmt = $conn->prepare("
-        SELECT o.*, a.* 
+        SELECT o.*, a.*, u.first_name, u.last_name, u.email 
         FROM orders o 
         JOIN addresses a ON o.address_id = a.address_id 
+        JOIN users u ON o.user_id = u.user_id
         WHERE o.order_id = ? AND o.user_id = ?
     ");
     $stmt->execute([$order_id, $user_id]);
@@ -52,12 +53,17 @@ try {
         $item['image'] = is_array($images) && !empty($images) ? $images[0] : null;
     }
 
+    // Add this near the end of the try block, before the echo json_encode
+    error_log('Order status: ' . $order['status']);
+
     // Return order data
     echo json_encode([
         'order' => $order,
         'items' => $items,
         'user' => [
-            'email' => $_SESSION['user_email'] ?? ''
+            'email' => $order['email'],
+            'first_name' => $order['first_name'],
+            'last_name' => $order['last_name']
         ]
     ]);
 

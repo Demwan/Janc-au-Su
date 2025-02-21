@@ -17,7 +17,7 @@
 
     .container {
       padding: 1.5rem 2rem;
-    }
+     }
 
     .header {
       display: flex;
@@ -56,7 +56,6 @@
 
     .tab-list {
       display: inline-flex;
-      padding: 0.25rem;
       background: #f1f5f9;
       border-radius: 0.5rem;
       margin-bottom: 1rem;
@@ -68,6 +67,11 @@
       font-size: 0.875rem;
       font-weight: 500;
       cursor: pointer;
+      margin-left: 5px;
+    }
+
+    .tab:hover{
+      background-color: white;
     }
 
     .tab.active {
@@ -79,7 +83,7 @@
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 1rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
     }
 
     .stat-card {
@@ -123,7 +127,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 1rem;
-      margin-top: 25px;
+      margin-top: 1rem;
     }
 
 
@@ -261,24 +265,20 @@
       cursor: pointer;
     }
 
-    .main {
-      margin: 0 50px;
-      margin-bottom: 50px;
-    }
   </style>
 </head>
 
 <body>
   <div class="container">
     <div class="header">
-      <h2 class="title">Dashboard</h2>
+      <h2 class="title">Dashboard - Recent Orders</h2>
 
     </div>
 
-    <div class="tab-list"></div>
+    <div class="tab-list">
       <button class="tab active">Orders</button>
-      <button class="tab">Team</button>
-      <button class="tab">Products</button>
+      <button class="tab"  onclick="window.location.href='/orders/team.html'">Team</button>
+      <button class="tab"  onclick="window.location.href='/orders/products.html'">Products</button>
     </div>
     <div class="main">
     <div class="stats-grid">
