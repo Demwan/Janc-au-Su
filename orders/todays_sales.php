@@ -2,7 +2,6 @@
 include __DIR__ . '/../db_connect.php';
 include __DIR__ . '/../auth_helper.php';
 
-header('Content-Type: application/json');
 requireStaffAccess($conn);
 
 // Query to fetch today's sales joining orders and users tables

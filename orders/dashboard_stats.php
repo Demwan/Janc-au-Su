@@ -2,7 +2,6 @@
 include __DIR__ . '/../db_connect.php';
 include __DIR__ . '/../auth_helper.php';
 
-header('Content-Type: application/json');
 requireStaffAccess($conn);
 
 // Query for total revenue from all orders
